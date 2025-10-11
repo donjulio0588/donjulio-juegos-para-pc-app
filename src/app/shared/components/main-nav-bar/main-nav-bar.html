@@ -8,6 +8,22 @@
 </nav> -->
 
 <div class="card flex gap-3">
-  <div id="logo">Don Julio[Juegos para PC]</div>
-  <p-menubar [model]="items" class="flex-1" />
+  <p-menubar [model]="items" class="flex-1">
+    <ng-template #start>
+      <!-- <svg
+        width="33"
+        height="35"
+        viewBox="0 0 33 35"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="..." fill="var(--primary-color)" />
+      </svg> -->
+      <img
+        src="https://www.theoldhatealing.co.uk/wp-content/uploads/2022/05/old-hat-logo.png"
+        alt="Don Julio [Juegos para PC] logo"
+        class="size-10"
+      />
+    </ng-template>
+  </p-menubar>
 </div>

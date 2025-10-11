@@ -1,0 +1,26 @@
+<div class="game-add-container">
+  <form action="" [formGroup]="gameForm()" (ngSubmit)="onSubmit()">
+    <app-custom-input
+      [control]="$any(gameForm().get('name'))"
+      placeHolder="Enter game name"
+      type="text"
+      errorMessage="Name is required"
+      label="Name:"
+    ></app-custom-input>
+    <app-custom-input
+      label="Image:"
+      [control]="$any(gameForm().get('image'))"
+      placeHolder="Enter game image"
+      type="text"
+      errorMessage="Image is required"
+    ></app-custom-input>
+
+    <button
+      type="submit"
+      [disabled]="gameForm().invalid"
+      class="bg-yellow-600 px-2 py-1 rounded-sm"
+    >
+      {{ gameToEdit().name ? 'Edit game' : 'Add new game' }}
+    </button>
+  </form>
+</div>

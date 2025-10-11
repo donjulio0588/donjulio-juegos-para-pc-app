@@ -1,15 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-main-nav-bar',
-//   imports: [],
-//   templateUrl: './main-nav-bar.html',
-//   styleUrl: './main-nav-bar.css'
-// })
-// export class MainNavBar {
-
-// }
-
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
@@ -28,6 +16,12 @@ export class MainNavBar implements OnInit {
       {
         label: 'Inicio',
         icon: 'pi pi-home',
+        routerLink: '/',
+      },
+      {
+        label: 'Juegos',
+        icon: 'pi pi-trophy',
+        routerLink: '/games',
       },
       {
         label: 'Features',

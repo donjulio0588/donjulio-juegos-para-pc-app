@@ -1,0 +1,20 @@
+<app-main-nav-bar></app-main-nav-bar>
+<app-search-bar></app-search-bar>
+<carousel-circular></carousel-circular>
+<section id="main-games-wiew" class="">
+  <div class="game-grid border border-red-300">
+    <div class="w-full text-center">
+      <a [routerLink]="['/add-edit-game']" class="bg-green-600 w-full px-2 py-1 rounded-sm"
+        >Add game</a
+      >
+    </div>
+    @defer (when store.games().length) { @for(game of store.games(); track game.id) { @defer (on
+    viewport) {
+    <app-game-card [game]="game" />
+    } @placeholder {
+    <div class="placeholder">Loading</div>
+    } } } @placeholder {
+    <div class="placeholder">Loading</div>
+    }
+  </div>
+</section>

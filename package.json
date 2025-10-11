@@ -23,7 +23,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^20.2.0",
+    "@angular/common": "^20.2.4",
     "@angular/compiler": "^20.2.0",
     "@angular/core": "^20.2.0",
     "@angular/forms": "^20.2.0",
@@ -31,6 +31,7 @@
     "@angular/platform-server": "^20.2.0",
     "@angular/router": "^20.2.0",
     "@angular/ssr": "^20.2.2",
+    "@ngrx/signals": "^20.0.1",
     "@primeng/themes": "^20.1.1",
     "@tailwindcss/postcss": "^4.1.12",
     "express": "^5.1.0",

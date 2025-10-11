@@ -1,0 +1,27 @@
+@let gameLocal = game(); @if (gameLocal) {
+<div class="game-card">
+  <h3>{{ gameLocal.name }}</h3>
+  <img
+    [ngSrc]="gameLocal.image"
+    width="200"
+    height="200"
+    alt="Game image"
+    [title]="gameLocal.name"
+  />
+
+  <div class="button-container">
+    <button
+      type="button"
+      class="bg-red-800 px-2 py-1 rounded-sm"
+      (click)="removeGame(gameLocal.id)"
+    >
+      Remove game
+    </button>
+    <a
+      [routerLink]="['/add-edit-game/' + gameLocal.id]"
+      class="bg-yellow-600 w-full px-2 py-1 rounded-sm"
+      >Edit game</a
+    >
+  </div>
+</div>
+}
