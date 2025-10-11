@@ -1,15 +1,21 @@
 @let gameLocal = game(); @if (gameLocal) {
-<div class="game-card">
-  <h3>{{ gameLocal.name }}</h3>
+<div class="relative border border-neutral-700 rounded-md">
+  <!-- [ngSrc]="gameLocal.poster" -->
   <img
-    [ngSrc]="gameLocal.image"
+    src="https://placehold.co/600x400"
     width="200"
     height="200"
     alt="Game image"
     [title]="gameLocal.name"
+    class="w-full h-auto rounded-md object-cover"
   />
-
-  <div class="button-container">
+  <h4
+    class="bg-neutral-800 px-3 py-1 rounded-b-md w-full absolute left-[50%] -translate-x-[50%] bottom-0 truncate"
+  >
+    {{ gameLocal.name }}
+  </h4>
+  <!-- EDIT, REMOVE, DEVELOP LATER -->
+  <!-- <div class="button-container">
     <button
       type="button"
       class="bg-red-800 px-2 py-1 rounded-sm"
@@ -22,6 +28,6 @@
       class="bg-yellow-600 w-full px-2 py-1 rounded-sm"
       >Edit game</a
     >
-  </div>
+  </div> -->
 </div>
 }

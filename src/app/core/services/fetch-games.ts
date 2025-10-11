@@ -34,7 +34,7 @@ export class FetchGames {
     );
   }
 
-  removeGame(id: number): Observable<void> {
+  removeGame(id: string): Observable<void> {
     const url = `${this.baseUrl}/${id}`;
     return this.http.delete<void>(url).pipe(
       catchError(() => {

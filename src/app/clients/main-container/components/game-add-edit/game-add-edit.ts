@@ -17,11 +17,11 @@ interface GameForm {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameAddEdit {
-  id = input<number>();
+  id = input<string>();
 
   readonly store = inject(GlobalStore);
 
-  gameToEdit = computed(() => this.store.getGame(Number(this.id())) ?? emptyGame);
+  gameToEdit = computed(() => this.store.getGame(this.id() as string) ?? emptyGame);
 
   gameForm: Signal<FormGroup> = computed(
     () =>
@@ -30,7 +30,7 @@ export class GameAddEdit {
           nonNullable: true,
           validators: [Validators.required],
         }),
-        image: new FormControl(this.gameToEdit().image, {
+        image: new FormControl(this.gameToEdit().poster, {
           nonNullable: true,
           validators: [Validators.required],
         }),
@@ -40,7 +40,7 @@ export class GameAddEdit {
   onSubmit(): void {
     if (this.gameForm().valid) {
       const game = {
-        ...(this.id() ? { id: Number(this.id()) } : {}),
+        ...(this.id() ? { id: this.id() } : {}),
         ...this.gameForm().value,
       };
       const methodToUse = this.id() ? 'updateGame' : 'addGame';

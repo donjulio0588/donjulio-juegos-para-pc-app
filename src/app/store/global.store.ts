@@ -3,6 +3,7 @@ import { Game } from '@app/core/models';
 import { FetchGames } from '@app/core/services/fetch-games';
 import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
 import { lastValueFrom } from 'rxjs';
+import { v4 as uuid } from 'uuid';
 
 type StoreState = {
   games: Game[];
@@ -21,7 +22,7 @@ export const GlobalStore = signalStore(
   withState(() => inject(STORE_STATE)),
 
   withMethods((store, gameService = inject(FetchGames)) => ({
-    getGame(id: number) {
+    getGame(id: string) {
       return store.games().find((game) => game.id === id);
     },
 
@@ -29,12 +30,12 @@ export const GlobalStore = signalStore(
       try {
         await lastValueFrom(gameService.addGame(game));
         patchState(store, ({ games }) => ({
-          games: [...games, { id: new Date().getTime(), ...game }],
+          games: [...games, { id: uuid(), ...game }],
         }));
       } catch (error) {}
     },
 
-    async removeGame(id: number) {
+    async removeGame(id: string) {
       try {
         await lastValueFrom(gameService.removeGame(id));
 
