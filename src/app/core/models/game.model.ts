@@ -27,7 +27,10 @@ export enum SteamValorations {
 }
 
 export interface GameInfo {
-  info: Info;
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
   games: Game[];
 }
 //================================= EDIT OR REMOVE

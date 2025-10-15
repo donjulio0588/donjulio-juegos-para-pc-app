@@ -8,11 +8,13 @@ import { GameAdapter } from '../adapters/game.adapter';
   providedIn: 'root',
 })
 export class FetchGames {
-  private readonly baseUrl = 'http://localhost:3001/api/games/';
+  private readonly baseUrl = 'http://localhost:4000/api/games';
   http = inject(HttpClient);
 
-  getAllGames(): Observable<Game[]> {
-    return this.http.get<GameInfo>(this.baseUrl).pipe(map((game) => GameAdapter(game)));
+  getAllGames(pageSize: number, pageNumber: number): Observable<GameInfo> {
+    return this.http
+      .get<GameInfo>(`${this.baseUrl}?limit=${pageSize}&page=${pageNumber}`)
+      .pipe(map((game) => GameAdapter(game)));
   }
 
   addGame(game: Omit<Game, 'id'>): Observable<void> {

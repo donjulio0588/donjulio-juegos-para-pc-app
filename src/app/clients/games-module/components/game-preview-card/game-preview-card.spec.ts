@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameCard } from './game-card';
+import { GameCard } from './game-preview-card';
 
 describe('GameCard', () => {
   let component: GameCard;
@@ -8,9 +8,8 @@ describe('GameCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GameCard]
-    })
-    .compileComponents();
+      imports: [GameCard],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GameCard);
     component = fixture.componentInstance;

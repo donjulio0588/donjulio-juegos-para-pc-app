@@ -7,8 +7,8 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-game-card',
   //imports: [RouterLink],
-  templateUrl: './game-card.html',
-  styleUrl: './game-card.css',
+  templateUrl: './game-preview-card.html',
+  styleUrl: './game-preview-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameCard {

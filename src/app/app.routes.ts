@@ -6,25 +6,24 @@ export const routes: Routes = [
     //redirectTo: '/games',
     pathMatch: 'full',
     //loadChildren: () => import('./auth/auth.routes').then((m) => m.AUTH_ROUTES),
-    loadComponent: () =>
-      import('./clients/main-landing-page/main-landing-page').then((m) => m.MainLandingPage),
+    loadComponent: () => import('./clients/home/main-landing-page').then((m) => m.MainLandingPage),
   },
   {
     path: 'games',
     loadComponent: () =>
-      import('./clients/main-container/main-container').then((m) => m.MainContainer),
+      import('./clients/games-module/main-container').then((m) => m.MainContainer),
   },
   {
     path: 'add-edit-game',
     loadComponent: () =>
-      import('./clients/main-container/components/game-add-edit/game-add-edit').then(
+      import('./clients/games-module/components/game-add-edit/game-add-edit').then(
         (m) => m.GameAddEdit
       ),
   },
   {
     path: 'add-edit-game/:id',
     loadComponent: () =>
-      import('./clients/main-container/components/game-add-edit/game-add-edit').then(
+      import('./clients/games-module/components/game-add-edit/game-add-edit').then(
         (m) => m.GameAddEdit
       ),
   },

@@ -1,69 +1,87 @@
-import { inject, InjectionToken, OnInit } from '@angular/core';
-import { Game } from '@app/core/models';
+import { computed, inject, InjectionToken, OnInit } from '@angular/core';
+import { Game, GameInfo } from '@app/core/models';
 import { FetchGames } from '@app/core/services/fetch-games';
-import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { lastValueFrom } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 
 type StoreState = {
-  games: Game[];
+  gamesData: GameInfo;
 };
 
 const initialState: StoreState = {
-  games: [],
+  gamesData: {
+    total: 0,
+    totalPages: 0,
+    page: 0,
+    pageSize: 0,
+    games: [],
+  },
 };
 
-const STORE_STATE = new InjectionToken<StoreState>('GlobalStore', {
-  factory: () => initialState,
-});
+// const STORE_STATE = new InjectionToken<StoreState>('GlobalStore', {
+//   factory: () => initialState,
+// });
 
 export const GlobalStore = signalStore(
   { providedIn: 'root' },
-  withState(() => inject(STORE_STATE)),
+  withState(initialState),
 
   withMethods((store, gameService = inject(FetchGames)) => ({
     getGame(id: string) {
-      return store.games().find((game) => game.id === id);
+      return store.gamesData.games().find((game) => game.id === id);
     },
 
     async addGame(game: Omit<Game, 'id'>) {
-      try {
-        await lastValueFrom(gameService.addGame(game));
-        patchState(store, ({ games }) => ({
-          games: [...games, { id: uuid(), ...game }],
-        }));
-      } catch (error) {}
+      // try {
+      //   await lastValueFrom(gameService.addGame(game));
+      //   patchState(store, ({ games }) => ({
+      //     games: [...games, { id: uuid(), ...game }],
+      //   }));
+      // } catch (error) {}
     },
 
     async removeGame(id: string) {
-      try {
-        await lastValueFrom(gameService.removeGame(id));
-
-        patchState(store, ({ games }) => ({
-          games: games.filter((game) => game.id !== id),
-          //isLoading: false,
-        }));
-      } catch (error) {}
+      // try {
+      //   await lastValueFrom(gameService.removeGame(id));
+      //   patchState(store, ({ games }) => ({
+      //     games: games.filter((game) => game.id !== id),
+      //     //isLoading: false,
+      //   }));
+      // } catch (error) {}
     },
 
     async updateGame(game: Game) {
-      try {
-        await lastValueFrom(gameService.updateGame(game));
+      // try {
+      //   await lastValueFrom(gameService.updateGame(game));
+      //   patchState(store, ({ games }) => ({
+      //     games: games.map((currentGame) =>
+      //       currentGame.id === game.id ? { ...currentGame, ...game } : currentGame
+      //     ),
+      //     //isLoading: false,
+      //   }));
+      // } catch (error) {}
+    },
 
-        patchState(store, ({ games }) => ({
-          games: games.map((currentGame) =>
-            currentGame.id === game.id ? { ...currentGame, ...game } : currentGame
-          ),
-          //isLoading: false,
-        }));
-      } catch (error) {}
+    async updateEntireState(gamesData: GameInfo) {
+      patchState(store, { gamesData });
     },
   })),
 
   withHooks({
     async onInit(store, gameService = inject(FetchGames)) {
-      const games = await lastValueFrom(gameService.getAllGames());
-      patchState(store, { games });
+      const gamesData = await lastValueFrom(
+        gameService.getAllGames(store.gamesData.pageSize(), store.gamesData.page())
+      );
+      //console.log(gamesData);
+      patchState(store, { gamesData });
     },
   })
 );

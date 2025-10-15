@@ -8,9 +8,9 @@
       >Add game</a
     >
   </div> -->
-  <div class="game-grid border border-red-300 xl:w-[90%] mx-auto rounded-lg">
-    @defer (when store.games().length) { @for(game of store.games(); track game.id) { @defer (on
-    viewport) {
+  <div class="game-grid xl:w-[90%] mx-auto rounded-lg">
+    @defer (when store.gamesData.games().length) { @for(game of store.gamesData.games(); track
+    game.id) { @defer (on viewport) {
     <app-game-card [game]="game" />
     } @placeholder {
     <div class="placeholder">Loading</div>
@@ -18,4 +18,14 @@
     <div class="placeholder">Loading</div>
     }
   </div>
+  <div class="card flex justify-center">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [first]="first"
+      [rows]="rows"
+      [totalRecords]="store.gamesData.total()"
+      [rowsPerPageOptions]="[10, 20, 30]"
+    />
+  </div>
+  <p>{{ store.gamesData.total() }}</p>
 </section>
