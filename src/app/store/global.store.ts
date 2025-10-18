@@ -1,16 +1,11 @@
-import { computed, inject, InjectionToken, OnInit } from '@angular/core';
+import { effect, inject, input } from '@angular/core';
 import { Game, GameInfo } from '@app/core/models';
+import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage';
 import { FetchGames } from '@app/core/services/fetch-games';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withHooks,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
-import { lastValueFrom } from 'rxjs';
-import { v4 as uuid } from 'uuid';
+import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
+import { lastValueFrom, map, Observer } from 'rxjs';
+
+//import { v4 as uuid } from 'uuid';
 
 type StoreState = {
   gamesData: GameInfo;
@@ -76,11 +71,13 @@ export const GlobalStore = signalStore(
   })),
 
   withHooks({
-    async onInit(store, gameService = inject(FetchGames)) {
-      const gamesData = await lastValueFrom(
-        gameService.getAllGames(store.gamesData.pageSize(), store.gamesData.page())
-      );
-      //console.log(gamesData);
+    async onInit(store, gameService = inject(FetchGames), urlData = inject(DataFromLocalStoage)) {
+      const pageSize =
+        Number(urlData.getItemFromLocalStorage('donJulio[JuegosParaPc]GamesPageSize')) || 30;
+      const pageNumber = 1; //should be taken from the url 🤨
+
+      const gamesData = await lastValueFrom(gameService.getAllGames(pageSize, pageNumber + 1));
+
       patchState(store, { gamesData });
     },
   })

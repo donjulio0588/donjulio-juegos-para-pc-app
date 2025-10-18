@@ -12,8 +12,10 @@ export class FetchGames {
   http = inject(HttpClient);
 
   getAllGames(pageSize: number, pageNumber: number): Observable<GameInfo> {
+    const pageNumberSubstringForURL = pageNumber ? `/page/${pageNumber}` : '';
+
     return this.http
-      .get<GameInfo>(`${this.baseUrl}?limit=${pageSize}&page=${pageNumber}`)
+      .get<GameInfo>(`${this.baseUrl}${pageNumberSubstringForURL}?limit=${pageSize}`)
       .pipe(map((game) => GameAdapter(game)));
   }
 

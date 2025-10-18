@@ -1,24 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-  PLATFORM_ID,
-  inject,
-} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { GlobalStore } from '@app/store';
 import { GameCard } from './components/game-preview-card/game-preview-card';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MainNavBar } from '@app/shared/components/main-nav-bar/main-nav-bar';
 import { SearchBar } from '@app/shared/components/search-bar/search-bar';
-//import { CustomInputComponent } from '@app/shared/components/custom-input/custom-input';
 import { GamesCarousel } from '@app/shared/components/carrousel/carrousel';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { FetchGames } from '@app/core/services/fetch-games';
 import { lastValueFrom } from 'rxjs';
-import { patchState } from '@ngrx/signals';
-import { GameInfo } from '@app/core/models';
+import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage';
 
 @Component({
   selector: 'app-main-container',
@@ -27,50 +18,51 @@ import { GameInfo } from '@app/core/models';
   styleUrl: './main-container.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainContainer {
+export class MainContainer implements OnInit {
   store = inject(GlobalStore);
+  localStorageService = inject(DataFromLocalStoage);
 
-  storedPageSize?: null | string;
-  totalOfRecords: number = 0;
+  private pageNumber: number = 0;
   first: number = 0;
-  rows: number = 30;
+  rows: number = 0;
   gameService = inject(FetchGames);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformBrowser(this.platformId)) {
-      // Access localStorage here, as it's guaranteed to be available
-      this.storedPageSize = localStorage.getItem('donJulio[JuegosParaPc]GamesPageSize');
-
-      if (!this.storedPageSize) {
-        localStorage.setItem('donJulio[JuegosParaPc]GamesPageSize', JSON.stringify(this.rows));
-      }
-      //updates selector field when the page loads
-      this.rows = Number(this.storedPageSize);
-    } else {
-      // Handle cases where localStorage is not available (e.g., during SSR)
-      //console.log('localStorage is not available on the server.');
-    }
+  constructor(private location: Location, private route: ActivatedRoute) {
+    this.pageNumber = route.snapshot.params['pageNumber'];
+    this.rows =
+      Number(
+        this.localStorageService.getItemFromLocalStorage('donJulio[JuegosParaPc]GamesPageSize')
+      ) || 30;
+    this.first = this.rows * (this.pageNumber - 1);
   }
 
+  //call the api every time a page is changed
   fetchGamesAPI = async (pageSize: number, pageNumber: number) => {
-    //console.log(pageSize, pageNumber);
     const gamesData = await lastValueFrom(this.gameService.getAllGames(pageSize, pageNumber));
-
-    this.store.updateEntireState(gamesData);
-    //patchState(this.store, { gamesData });
-    //console.log(gamesData);
+    this.store.updateEntireState(gamesData); //improve in the future
   };
 
+  //UI component logic
   onPageChange(event: PaginatorState) {
-    this.first = event.first ?? 0;
-    this.rows = event.rows ?? 10;
+    this.first = event.first ?? this.first;
 
-    //updates the localstorage every time rows(cards) changes
-    event.rows &&
-      localStorage.setItem('donJulio[JuegosParaPc]GamesPageSize', JSON.stringify(event.rows));
-    // console.log(event.page);
-    // console.log(event.rows);
-    this.fetchGamesAPI(event.rows as number, event.page as number);
-    //console.log(this.store.gamesData());
+    //updates the localstorage every time rows(number of cards per page) or page number change
+    event.rows !== this.rows &&
+      this.localStorageService.setItemToLocalStorage(
+        'donJulio[JuegosParaPc]GamesPageSize',
+        JSON.stringify(event.rows)
+      );
+
+    if (event.rows !== this.rows) this.rows = event.rows ?? this.rows;
+
+    this.location.replaceState(`games/page/${event.page ? event.page + 1 : 1}`); //update url
+    this.fetchGamesAPI(event.rows as number, (event.page as number) + 1); //call the api again
+  }
+
+  ngOnInit(): void {
+    //improve in the future, i'm calling the api and updating the store getting the pageSize from the localStorage
+    // though a service and the pageNumber from the url, at this moment i can't get pageNumber data directly from the url
+    // inside the global store withHooks method
+    this.fetchGamesAPI(this.rows as number, this.pageNumber);
   }
 }

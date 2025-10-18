@@ -14,6 +14,11 @@ export const routes: Routes = [
       import('./clients/games-module/main-container').then((m) => m.MainContainer),
   },
   {
+    path: 'games/page/:pageNumber',
+    loadComponent: () =>
+      import('./clients/games-module/main-container').then((m) => m.MainContainer),
+  },
+  {
     path: 'add-edit-game',
     loadComponent: () =>
       import('./clients/games-module/components/game-add-edit/game-add-edit').then(
