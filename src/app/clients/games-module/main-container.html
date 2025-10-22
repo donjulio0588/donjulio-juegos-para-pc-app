@@ -11,7 +11,7 @@
   <div class="game-grid xl:w-[90%] mx-auto rounded-lg">
     @defer (when store.gamesData.games().length) { @for(game of store.gamesData.games(); track
     game.id) { @defer (on viewport) {
-    <app-game-card [game]="game" />
+    <app-game-preview [game]="game" />
     } @placeholder {
     <div class="placeholder">Loading</div>
     } } } @placeholder {

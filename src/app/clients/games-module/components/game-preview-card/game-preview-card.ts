@@ -1,22 +1,38 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angular/core';
 import { Game } from '@app/core/models';
-import { GlobalStore } from '@app/store';
+import { SelectedGameService } from '@app/core/services/selected-game.service';
+//import { GlobalStore } from '@app/store';
 //import { JsonPipe, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-game-card',
-  //imports: [RouterLink],
+  selector: 'app-game-preview',
+  imports: [RouterLink],
   templateUrl: './game-preview-card.html',
   styleUrl: './game-preview-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameCard {
+export class GameCard implements OnInit {
   game = input.required<Game>();
+  gameNameForUrl: string = 'tanjiro';
+  private selectedGameService = inject(SelectedGameService);
 
-  readonly store = inject(GlobalStore);
+  ngOnInit(): void {
+    //improve this with a regular expresion
+    let normalizedNameForUrl = this.game().name.toLowerCase();
+    normalizedNameForUrl = normalizedNameForUrl.replace('-', '');
+    normalizedNameForUrl = normalizedNameForUrl.replaceAll(' ', '-');
+    normalizedNameForUrl = normalizedNameForUrl.replaceAll('--', '-');
+    normalizedNameForUrl = normalizedNameForUrl.trim();
 
-  removeGame(gameId: string) {
-    this.store.removeGame(gameId);
+    this.gameNameForUrl = normalizedNameForUrl;
   }
+
+  setSelectedGame() {
+    this.selectedGameService.setSelectedGame(this.game());
+  }
+
+  // removeGame(gameId: string) {
+  //   this.store.removeGame(gameId);
+  // }
 }

@@ -79,6 +79,7 @@ export interface Game {
   updated: boolean;
   updatedAt: string;
   createdAt: string;
+  friendly_url: string;
 }
 
 export const emptyGame: Game = {
@@ -115,4 +116,5 @@ export const emptyGame: Game = {
   updated: false,
   updatedAt: '',
   createdAt: '',
+  friendly_url: '',
 };

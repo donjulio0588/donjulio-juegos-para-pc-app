@@ -1,6 +1,11 @@
 @let gameLocal = game(); @if (gameLocal) {
-<div class="relative border border-neutral-700 rounded-md">
+<div
+  [routerLink]="[`/games/${gameNameForUrl}`]"
+  (click)="setSelectedGame()"
+  class="relative border border-neutral-700 rounded-md hover:scale-[1.02] transition-all duration-200 ease-in-out shadow-md cursor-pointer"
+>
   <!-- [ngSrc]="gameLocal.poster" -->
+  <!-- check the image height, bug with some images that are higher -->
   <img
     src="http://localhost:4000/api/games/images/game-images/main/{{ gameLocal.poster }}"
     width="200"

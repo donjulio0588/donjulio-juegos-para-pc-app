@@ -21,14 +21,14 @@ import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage';
 export class MainContainer implements OnInit {
   store = inject(GlobalStore);
   localStorageService = inject(DataFromLocalStoage);
+  gameService = inject(FetchGames);
 
   private pageNumber: number = 0;
   first: number = 0;
   rows: number = 0;
-  gameService = inject(FetchGames);
 
   constructor(private location: Location, private route: ActivatedRoute) {
-    this.pageNumber = route.snapshot.params['pageNumber'];
+    this.pageNumber = route.snapshot.params['pageNumber'] ?? 1;
     this.rows =
       Number(
         this.localStorageService.getItemFromLocalStorage('donJulio[JuegosParaPc]GamesPageSize')
@@ -63,6 +63,6 @@ export class MainContainer implements OnInit {
     //improve in the future, i'm calling the api and updating the store getting the pageSize from the localStorage
     // though a service and the pageNumber from the url, at this moment i can't get pageNumber data directly from the url
     // inside the global store withHooks method
-    this.fetchGamesAPI(this.rows as number, this.pageNumber);
+    this.fetchGamesAPI(this.rows as number, this.pageNumber as number);
   }
 }

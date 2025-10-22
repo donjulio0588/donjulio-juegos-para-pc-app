@@ -34,6 +34,10 @@ export const GlobalStore = signalStore(
       return store.gamesData.games().find((game) => game.id === id);
     },
 
+    getGameByFriendlyUrl(friendlyUrl: string) {
+      return store.gamesData.games().find((game) => game.friendly_url === friendlyUrl);
+    },
+
     async addGame(game: Omit<Game, 'id'>) {
       // try {
       //   await lastValueFrom(gameService.addGame(game));

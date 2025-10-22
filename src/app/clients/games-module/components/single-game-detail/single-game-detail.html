@@ -1,1 +1,67 @@
-<p>single-game-detail works!</p>
+<app-main-nav-bar></app-main-nav-bar>
+@let activatedGame = selectedGame(); @if (activatedGame) {
+<div
+  id="single-game-main-container"
+  class="grid grid-cols-6 w-4/5 mx-auto my-8 p-6 gap-6 bg-neutral-800 rounded-lg shadow-md"
+>
+  <h3 class="col-span-6 text-xl font-medium">
+    {{ activatedGame.name }}
+  </h3>
+  <!-- LEFT RIGHT ON LARGE VIEW -->
+  <div id="game-resume-detail" class="col-span-2 lg:order-1">
+    <div id="posterImage">
+      <img
+        src="http://localhost:4000/api/games/images/game-images/main/{{ activatedGame.poster }}"
+        width="400"
+        height="400"
+        alt="Game image"
+        [title]="activatedGame.name"
+        class="w-full h-auto object-cover mb-4"
+      />
+    </div>
+    <div id="game-info" class="flex flex-col text-base text-neutral-300">
+      <small class="mb-2">{{ activatedGame.description | firstWords : 60 }}</small>
+      <small class="mb-2">
+        <span class="text-neutral-400">{{ 'Reseñas de Steam: ' | uppercase }}</span>
+        <strong>{{ activatedGame.steam_valoration || 'Desconocidas' }}</strong>
+      </small>
+      <small class="mb-2">
+        <span class="text-neutral-400">{{ 'Año de lanzamiento: ' | uppercase }}</span>
+        <strong>{{ activatedGame.year }}</strong>
+      </small>
+      <!-- <p class="mb-2"><strong>Release Date:</strong> {{ activatedGame.year }}</p> -->
+      <small class="mb-2">
+        <span class="text-neutral-400">{{ 'Géneros: ' | uppercase }}</span>
+        <strong>{{ activatedGame.genres }}</strong>
+      </small>
+    </div>
+  </div>
+
+  <!-- LEFT SIDE ON LARGE VIEW IMG GALLERY-->
+  <div id="imagesThumbs" class="flex flex-col col-span-4 mb-4 overflow-y-auto">
+    <div id="activeImage" class="w-full">
+      <img
+        src="http://localhost:4000/api/games/images/game-images/splash1/{{ activatedGame.image1 }}"
+        width="200"
+        height="200"
+        alt="Game image"
+        [title]="activatedGame.name"
+        class="w-full h-auto object-cover mb-2"
+      />
+    </div>
+    <div id="galleryImages" class="grid grid-cols-4 gap-4">
+      @for (img of this.imageGallery; let i = $index; track i) {
+      <img
+        src="http://localhost:4000/api/games/images/game-images/splash{{ i + 1 }}/{{ img }}"
+        width="100"
+        height="100"
+        alt="Gallery image"
+        class="w-full h-[4.5rem] object-cover cursor-pointer transition-all duration-200 ease-in-out"
+      />
+      }
+    </div>
+  </div>
+</div>
+<div id="game-details" class="pl-6"></div>
+
+}
