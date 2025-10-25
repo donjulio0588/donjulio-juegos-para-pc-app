@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
 import { Game, GameInfo } from '../models';
-import { GameAdapter } from '../adapters/game.adapter';
+import { GameAdapter, SingleGameAdapter } from '../adapters/game.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +21,16 @@ export class FetchGames {
     return this.http
       .get<GameInfo>(`${this.baseUrl}${friendlyUrl}${pageNumberSubstringForURL}?limit=${pageSize}`)
       .pipe(map((game) => GameAdapter(game)));
+  }
+
+  getOneGameByFriendlyUrl(friendlyUrl: string): Observable<Game> {
+    return this.http.get<Game>(`${this.baseUrl}/${friendlyUrl}`).pipe(
+      map((game) => SingleGameAdapter(game)),
+      catchError(() => {
+        console.info('error prevented for testing');
+        return Promise.resolve({} as Game);
+      })
+    );
   }
 
   addGame(game: Omit<Game, 'id'>): Observable<void> {

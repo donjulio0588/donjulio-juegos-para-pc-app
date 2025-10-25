@@ -1,67 +1,212 @@
 <app-main-nav-bar></app-main-nav-bar>
 @let activatedGame = selectedGame(); @if (activatedGame) {
-<div
-  id="single-game-main-container"
-  class="grid grid-cols-6 w-4/5 mx-auto my-8 p-6 gap-6 bg-neutral-800 rounded-lg shadow-md"
->
-  <h3 class="col-span-6 text-xl font-medium">
-    {{ activatedGame.name }}
-  </h3>
-  <!-- LEFT RIGHT ON LARGE VIEW -->
-  <div id="game-resume-detail" class="col-span-2 lg:order-1">
-    <div id="posterImage">
-      <img
-        src="http://localhost:4000/api/games/images/game-images/main/{{ activatedGame.poster }}"
-        width="400"
-        height="400"
-        alt="Game image"
-        [title]="activatedGame.name"
-        class="w-full h-auto object-cover mb-4"
-      />
-    </div>
-    <div id="game-info" class="flex flex-col text-base text-neutral-300">
-      <small class="mb-2">{{ activatedGame.description | firstWords : 60 }}</small>
-      <small class="mb-2">
-        <span class="text-neutral-400">{{ 'Reseñas de Steam: ' | uppercase }}</span>
-        <strong>{{ activatedGame.steam_valoration || 'Desconocidas' }}</strong>
-      </small>
-      <small class="mb-2">
-        <span class="text-neutral-400">{{ 'Año de lanzamiento: ' | uppercase }}</span>
-        <strong>{{ activatedGame.year }}</strong>
-      </small>
-      <!-- <p class="mb-2"><strong>Release Date:</strong> {{ activatedGame.year }}</p> -->
-      <small class="mb-2">
-        <span class="text-neutral-400">{{ 'Géneros: ' | uppercase }}</span>
-        <strong>{{ activatedGame.genres }}</strong>
-      </small>
-    </div>
-  </div>
+<!-- Background -->
+<div id="background-img" class="pl-6">
+  <img
+    src="http://localhost:4000/api/games/images/game-images/main/{{ activatedGame.poster }}"
+    width="800"
+    height="400"
+    alt="Background image"
+    [title]="activatedGame.name"
+    class="w-full h-auto object-cover rounded-md shadow-md absolute top-[3.8rem] left-0 opacity-10 pointer-events-none"
+  />
+</div>
+<div id="single-game-main-container" class="bg-[#1b2838]">
+  <div class="relative flex flex-col max-w-[62rem] mx-auto pt-28 gap-4">
+    <h3 class="col-span-6 text-3xl font-normal">
+      {{ activatedGame.name }}
+    </h3>
+    <!-- TOP BLOCK *********************************************** -->
+    <div
+      id="top-block-container"
+      class="col-span-6 grid grid-cols-6 gap-4 bg-neutral-700/60 p-6 rounded-md shadow-md"
+    >
+      <!-- LEFT RIGHT ON LARGE VIEW -->
+      <div id="game-resume-detail" class="col-span-2 lg:order-1">
+        <div id="posterImage">
+          <img
+            src="http://localhost:4000/api/games/images/game-images/main/{{ activatedGame.poster }}"
+            width="400"
+            height="400"
+            alt="Game image"
+            [title]="activatedGame.name"
+            class="w-full h-[9rem] xl:h-[12rem] object-cover mb-4"
+          />
+        </div>
+        <div id="game-info" class="flex flex-col text-base text-neutral-300">
+          <small class="mb-4 h-[7rem] overflow-hidden">{{ activatedGame.description }}</small>
+          <small class="mb-2">
+            <span class="text-neutral-400">{{ 'Reseñas de Steam: ' | uppercase }}</span>
+            <spam class="text-sm" [ngClass]="getSteamValoration(activatedGame.steam_valoration)">{{
+              activatedGame.steam_valoration || 'Desconocidas'
+            }}</spam>
+          </small>
+          <small class="mb-2">
+            <span class="text-neutral-400">{{ 'Año de lanzamiento: ' | uppercase }}</span>
+            <strong>{{ activatedGame.year }}</strong>
+          </small>
+          <!-- <p class="mb-2"><strong>Release Date:</strong> {{ activatedGame.year }}</p> -->
+          <small class="mb-2">
+            <span class="text-neutral-400">{{ 'Géneros: ' | uppercase }}</span>
+            <strong>{{ activatedGame.genres }}</strong>
+          </small>
+        </div>
+      </div>
 
-  <!-- LEFT SIDE ON LARGE VIEW IMG GALLERY-->
-  <div id="imagesThumbs" class="flex flex-col col-span-4 mb-4 overflow-y-auto">
-    <div id="activeImage" class="w-full">
+      <!-- LEFT SIDE ON LARGE VIEW IMG GALLERY-->
+
+      <div id="imagesThumbs" class="flex flex-col col-span-4 mb-4 overflow-y-auto">
+        <!-- <div id="activeImage" class="w-full">
       <img
-        src="http://localhost:4000/api/games/images/game-images/splash1/{{ activatedGame.image1 }}"
+        src="{{ activeImage }}"
         width="200"
         height="200"
         alt="Game image"
         [title]="activatedGame.name"
-        class="w-full h-auto object-cover mb-2"
+        class="w-full h-[24rem] object-cover mb-2 flex-1"
       />
-    </div>
-    <div id="galleryImages" class="grid grid-cols-4 gap-4">
+    </div> -->
+        <!-- <div id="galleryImages" class="grid grid-cols-4 gap-4 h-[30%]">
       @for (img of this.imageGallery; let i = $index; track i) {
       <img
         src="http://localhost:4000/api/games/images/game-images/splash{{ i + 1 }}/{{ img }}"
         width="100"
         height="100"
         alt="Gallery image"
-        class="w-full h-[4.5rem] object-cover cursor-pointer transition-all duration-200 ease-in-out"
+        class="w-full h-[5.5rem] object-cover cursor-pointer transition-all duration-200 ease-in-out border border-neutral-600"
+        (click)="setActiveImage($event.target.src)"
       />
       }
+    </div> -->
+        <div class="">
+          <p-galleria
+            [value]="imageGallery"
+            [autoPlay]="true"
+            [circular]="true"
+            [responsiveOptions]="responsiveOptions"
+            [numVisible]="4"
+            [containerStyle]="{ 'max-width': '640px', border: 'none', borderRadius: '0' }"
+          >
+            <!-- ActivatedImage -->
+            <ng-template #item let-item>
+              <img
+                [src]="item.itemImageSrc"
+                class="w-full h-[24rem] block object-cover flex-1 !rounded-none"
+              />
+            </ng-template>
+            <!-- Thumbnails -->
+            <ng-template #thumbnail let-item>
+              <img [src]="item.thumbnailImageSrc" class="block px-1" [alt]="item.alt" />
+            </ng-template>
+          </p-galleria>
+        </div>
+      </div>
+    </div>
+    <!-- ********************************************************** -->
+
+    <!-- INTERMIDIATE BLOCK -->
+    <div
+      id="intermidiate-block-container"
+      class="flex bg-neutral-800/70 p-4 rounded-xs shadow-md text-neutral-300 items-center gap-4"
+    >
+      <button type="button" pButton>
+        <i class="pi pi-check" pButtonIcon></i>
+        <span pButtonLabel>Añadir a la lista de deseados</span>
+      </button>
+      <button type="button" pButton>
+        <i class="pi pi-check" pButtonIcon></i>
+        <span pButtonLabel>Seguir</span>
+      </button>
+      <button type="button" class="rounded-none bg-[#274357] border-none" pButton>
+        <i class="pi pi-cart-plus text-blue-300" pButtonIcon></i>
+        <span pButtonLabel class="text-blue-300 font-normal">Añadir al carrito</span>
+      </button>
+    </div>
+
+    <!-- BOTTOM BLOCK **********************************************-->
+    <div id="bottom-block-container" class="col-span-6 grid grid-cols-6 gap-4">
+      <!-- LEFT RIGHT ON LARGE VIEW -->
+      <div id="game-details-right-side" class="col-span-2 lg:order-1">
+        <div
+          id="game-info"
+          class="flex flex-col text-base text-neutral-300 bg-[#090e14]/90 rounded-md p-4 shadow-md"
+        >
+          <!-- language field -->
+          <small id="languague-field" class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-language me-1"></span>
+            <span class="text-neutral-400 w-[5rem]">{{ 'Idioma: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 p-1 w-full">
+              {{ activatedGame.language }}
+            </p>
+          </small>
+          <!-- price field -->
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-dollar me-1"></span>
+            <span class="text-neutral-400 w-[5rem]">{{ 'Precio: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 w-full">
+              {{ activatedGame.price | currency }}
+            </p>
+          </small>
+          <!-- FIX GAMES SIZE -->
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-window-minimize me-1"></span>
+            <span class="text-neutral-400 w-[5rem]">{{ 'Tamaño: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 w-full">{{ activatedGame.size }} GB</p>
+          </small>
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-trophy me-1"></span>
+            <span class="text-neutral-400 w-[5rem]">{{ 'Puntos: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 w-full">{{ activatedGame.points }}</p>
+          </small>
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-box me-1"></span>
+            <span class="text-neutral-400 w-[6.3rem] whitespace-nowrap">{{
+              'versión / build: ' | uppercase
+            }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 flex-1">{{ activatedGame.version }}</p>
+          </small>
+          <!-- FIX GAMES MULTI -->
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-users me-1"></span>
+            <span class="text-neutral-400 w-[6.3rem]">{{ 'Multijugador: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 flex-1">
+              {{ activatedGame.multiplayer }}
+            </p>
+          </small>
+        </div>
+      </div>
+
+      <!-- LEFT SIDE ON LARGE VIEW DESCRIPTION-->
+      <div id="game-details-left-side" class="flex flex-col gap-8 col-span-4 mb-4">
+        <!-- game description -->
+        <div id="game-description-container">
+          <p>{{ 'acerca de este juego' | uppercase }}</p>
+          <p-divider type="solid" />
+          <div id="about-game-description" class="text-neutral-400 text-sm mt-2 h-auto">
+            {{ activatedGame.description }}
+          </div>
+        </div>
+        <!-- game requirements -->
+        <div id="game-requirements-container">
+          <p>{{ 'requisitos del sistema' | uppercase }}</p>
+          <p-divider type="solid" />
+          <div id="inner-requirementes-container" class="flex mt-4">
+            <div id="minimum">
+              <h4 class="text-neutral-400 text-xs">{{ 'Mínimos:' | uppercase }}</h4>
+              <div class="text-neutral-300 text-sm mt-2 h-auto p-2">
+                {{ activatedGame.requirements }}
+              </div>
+            </div>
+            <div id="recomended">
+              <h4 class="text-neutral-400 text-xs">{{ 'Recomendados:' | uppercase }}</h4>
+              <div class="text-neutral-300 text-sm mt-2 h-auto p-2">
+                {{ activatedGame.requirements }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<div id="game-details" class="pl-6"></div>
-
 }

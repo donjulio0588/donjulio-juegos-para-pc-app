@@ -19,13 +19,13 @@ export class GameCard implements OnInit {
 
   ngOnInit(): void {
     //improve this with a regular expresion
-    let normalizedNameForUrl = this.game().name.toLowerCase();
-    normalizedNameForUrl = normalizedNameForUrl.replace('-', '');
-    normalizedNameForUrl = normalizedNameForUrl.replaceAll(' ', '-');
-    normalizedNameForUrl = normalizedNameForUrl.replaceAll('--', '-');
-    normalizedNameForUrl = normalizedNameForUrl.trim();
+    // let normalizedNameForUrl = this.game().name.toLowerCase();
+    // normalizedNameForUrl = normalizedNameForUrl.replace('-', '');
+    // normalizedNameForUrl = normalizedNameForUrl.replaceAll(' ', '-');
+    // normalizedNameForUrl = normalizedNameForUrl.replaceAll('--', '-');
+    // normalizedNameForUrl = normalizedNameForUrl.trim();
 
-    this.gameNameForUrl = normalizedNameForUrl;
+    this.gameNameForUrl = this.game().friendly_url;
   }
 
   setSelectedGame() {
