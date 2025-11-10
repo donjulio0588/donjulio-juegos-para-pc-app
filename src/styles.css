@@ -2,3 +2,11 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-primeui";
 @import 'primeicons/primeicons.css';
+
+/* SINGLE GAME DETAIL GLOBAL STYLES*/
+
+:root {
+  --blue-text-color: #66a2aa;
+  --light-blue-bg-color: #274458;
+  --blue-btn-hover-bg-color: #233d4f;
+}

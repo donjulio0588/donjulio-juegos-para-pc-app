@@ -39,7 +39,9 @@ export class MainContainer implements OnInit {
   //call the api every time a page is changed
   fetchGamesAPI = async (pageSize: number, pageNumber: number) => {
     const gamesData = await lastValueFrom(this.gameService.getAllGames(pageSize, pageNumber));
+    // console.log(gamesData);
     this.store.updateEntireState(gamesData); //improve in the future
+    //console.log(this.store.gamesData());
   };
 
   //UI component logic
@@ -64,5 +66,6 @@ export class MainContainer implements OnInit {
     // though a service and the pageNumber from the url, at this moment i can't get pageNumber data directly from the url
     // inside the global store withHooks method
     this.fetchGamesAPI(this.rows as number, this.pageNumber as number);
+    //console.log(this.store.gamesData());
   }
 }

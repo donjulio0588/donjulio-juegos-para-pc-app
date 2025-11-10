@@ -48,7 +48,7 @@ export interface Location extends LinkedElement {}
 export interface Game {
   id: string;
   name: string;
-  size: string;
+  size: number;
   genres: Genres;
   language: string;
   description: string;
@@ -80,12 +80,24 @@ export interface Game {
   updatedAt: string;
   createdAt: string;
   friendly_url: string;
+  calculatedInfo: {
+    relatedGamesCount: number;
+    relatedGamesList: Array<Game>;
+  };
 }
+
+// export interface GamePlusExtraData {
+//   game: Game;
+//   calculatedGameInfo: {
+//     totalRelatedGames: number;
+//     relatedGamesList: Array<string>;
+//   };
+// }
 
 export const emptyGame: Game = {
   id: '',
   name: '',
-  size: '',
+  size: 0,
   genres: Genres.MALE,
   language: '',
   description: '',
@@ -116,5 +128,27 @@ export const emptyGame: Game = {
   updated: false,
   updatedAt: '',
   createdAt: '',
+  friendly_url: '',
+  calculatedInfo: {
+    relatedGamesCount: 0,
+    relatedGamesList: [],
+  },
+};
+
+export interface RelatedGames {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  status: boolean;
+  friendly_url: string;
+}
+
+export const RelatedGamesInitialState = {
+  id: '',
+  name: '',
+  image: '',
+  price: 0,
+  status: false,
   friendly_url: '',
 };
