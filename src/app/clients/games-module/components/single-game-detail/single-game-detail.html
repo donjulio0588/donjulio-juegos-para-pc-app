@@ -12,7 +12,7 @@
   />
 </div>
 <div id="single-game-main-container" class="bg-[#1b2838]">
-  <div class="relative flex flex-col max-w-[74rem] mx-auto pt-20 gap-2">
+  <div class="relative flex flex-col max-w-[74rem] mx-auto pt-20 gap-2 gap-y-1">
     <h3 class="col-span-6 text-3xl font-normal">
       {{ activatedGame.name }}
     </h3>
@@ -50,34 +50,67 @@
             <span class="text-neutral-400">{{ 'Géneros: ' | uppercase }}</span>
             <span class="text-blue-300">{{ activatedGame.genres }}</span>
           </small>
-          @if(activatedGame.recomended) {
-          <small class="my-2 flex gap-1 items-center">
-            <span class="text-neutral-400">Don Julio juego Recomendado</span>
-            <!-- <span class="text-blue-300">{{ activatedGame.genres }}</span> -->
-          </small>
-          }
+          <div class="flex flex-wrap whitespace-nowrap gap-x-[.10rem]">
+            <!-- warning for recomended game -->
+            @if(activatedGame.recomended) {
+            <small class="mt-2 flex items-center bg-orange-600/70 w-fit gap-2 px-2 py-1 rounded-xs">
+              <span class="pi pi-thumbs-up-fill text-orange-300"></span>
+              <span class="text-orange-300">Juego Recomendado</span>
+            </small>
+            <!-- Warning for gift game -->
+            } @if(activatedGame.gift) {
+            <small class="mt-2 flex items-center bg-lime-600/70 w-fit gap-2 px-2 py-1 rounded-xs">
+              <span class="pi pi-gift text-lime-300"></span>
+              <span class="text-lime-300">Juego de regalo</span>
+            </small>
+            }
+          </div>
         </div>
         <!-- Some other features -->
-        <div class="flex flex-col gap-x-2 gap-y-1">
-          <small class="text-neutral-400 opacity-50">Otras características de este producto:</small>
+        <div class="whitespace-nowrap">
+          <small class="text-neutral-400 opacity-70">Otras características de este producto:</small>
           <!-- Related games info message -->
-          <small
-            class="bg-[var(--light-blue-bg-color)] text-blue-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-cyan-600 hover:to-cyan-700 hover:text-white"
-            (click)="scrollToSection()"
-            >{{ relatedGamePersonalizedMessage() }}
-          </small>
-          <!-- Warning for unavailable game -->
-          @if(activatedGame.inactive) {
-          <small
-            class="bg-red-500/60 text-red-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700 hover:text-white"
-            >Juego no disponible</small
-          >
-          } @if(activatedGame.console) {
-          <small
-            class="bg-yellow-500/60 text-yellow-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-700 hover:text-white"
-            >Advertencia de juego emulado</small
-          >
-          }
+          <div class="flex flex-wrap gap-y-[.10rem] gap-x-[.15rem]">
+            <small
+              class="bg-[var(--light-blue-bg-color)] text-blue-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-cyan-600 hover:to-cyan-700 hover:text-white"
+              (click)="scrollToSection()"
+              >{{ relatedGamePersonalizedMessage() }}
+            </small>
+            <!-- Warning for unavailable game -->
+            @if(activatedGame.inactive) {
+            <small
+              class="bg-red-500/60 text-red-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700 hover:text-white"
+              >Juego no disponible</small
+            >
+            <!-- Warning for emulated game -->
+            } @if(activatedGame.console) {
+            <small
+              class="bg-yellow-500/60 text-yellow-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-700 hover:text-white"
+              >Advertencia de juego emulado</small
+            >
+            }
+            <!-- Warning for new  game -->
+            @if(activatedGame.new) {
+            <small
+              class="bg-[var(--light-blue-bg-color)] text-blue-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-cyan-600 hover:to-cyan-700 hover:text-white"
+              >Juego nuevo</small
+            >
+            }
+            <!-- Warning for recent updated  game -->
+            @if(activatedGame.updated) {
+            <small
+              class="bg-[var(--light-blue-bg-color)] text-blue-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-cyan-600 hover:to-cyan-700 hover:text-white"
+              >Juego actualizado</small
+            >
+            }
+            <!-- Warning for aditional content -->
+            @if(activatedGame.additional_content) {
+            <small
+              class="bg-[var(--light-blue-bg-color)] text-blue-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-cyan-600 hover:to-cyan-700 hover:text-white"
+              >Juego con contenido adicional</small
+            >
+            }
+          </div>
         </div>
       </div>
 
@@ -116,7 +149,7 @@
     <!-- INTERMIDIATE BLOCK -->
     <div
       id="intermidiate-block-container"
-      class="flex bg-[#090e14]/70 p-4 rounded-xs shadow-md text-neutral-300 items-center gap-2"
+      class="flex bg-[#111923]/90 p-4 rounded-xs shadow-md text-neutral-300 items-center gap-2"
     >
       <div id="wich list" class="flex gap-[.16rem]">
         <button
@@ -149,22 +182,23 @@
       <span class="flex-1 flex justify-end">
         <button
           type="button"
-          class="rounded-xs border-none bg-gradient-to-r from-green-500 to-green-700 opacity-90 hover:opacity-100"
+          title="Añadir a tu lista de compras"
+          class="rounded-md border-4 border-neutral-950 bg-gradient-to-r from-lime-500 to-lime-700 hover:from-lime-600 hover:to-lime-800"
           pButton
         >
-          <i class="pi pi-cart-plus text-white" pButtonIcon></i>
-          <span pButtonLabel class="font-normal text-white">Añadir al carrito</span>
+          <i class="pi pi-cart-plus text-lime-100" pButtonIcon></i>
+          <span pButtonLabel class="font-normal text-lime-100">Añadir al carrito</span>
         </button>
       </span>
     </div>
 
     <!-- BOTTOM BLOCK **********************************************-->
     <div id="bottom-block-container" class="col-span-6 grid grid-cols-6 gap-4">
-      <!-- LEFT RIGHT ON LARGE VIEW -->
-      <div id="game-details-right-side" class="col-span-2 lg:order-1">
+      <!-- RIGHT ON LARGE VIEW -->
+      <div id="game-details-right-side" class="flex flex-col gap-y-2 col-span-2 lg:order-1">
         <div
           id="game-info"
-          class="flex flex-col text-base text-neutral-300 bg-[#090e14]/90 rounded-md p-4 shadow-md"
+          class="flex flex-col text-base text-neutral-300 bg-[#090e14]/90 rounded-sm p-4 shadow-md"
         >
           <!-- language field -->
           <small id="languague-field" class="mb-[2px] flex gap-1 items-center">
@@ -216,7 +250,7 @@
             <span class="pi pi-play me-1"></span>
             <span class="text-neutral-400 w-[6.3rem]">{{ 'Plataforma: ' | uppercase }}</span>
             <p class="bg-[#121e27] text-blue-300 px-2 py-1 flex-1">
-              {{ activatedGame.console }}
+              {{ consoleAdapter(activatedGame.console) }}
             </p>
           </small>
           <small class="mb-[2px] flex gap-1 items-center">
@@ -227,6 +261,12 @@
             </p>
           </small>
         </div>
+        @if(!activatedGame.known_issues) {
+        <div
+          id="issue-block"
+          class="bg-[#090e14]/90 p-4 shadow-md w-full h-[10rem] rounded-sm"
+        ></div>
+        }
       </div>
 
       <!-- LEFT SIDE ON LARGE VIEW DESCRIPTION-->
@@ -236,7 +276,13 @@
           <p>{{ 'acerca de este juego' | uppercase }}</p>
           <p-divider type="solid" />
           <div id="about-game-description" class="text-neutral-300 text-sm mt-2 h-auto">
-            {{ activatedGame.description }}
+            {{ descriptionAdapter(activatedGame.description).adaptedDescription }}
+            @if(descriptionAdapter(activatedGame.description).readMore){
+            <div id="readMore" class="flex flex-col items-center border border-amber-300">
+              <p-divider />
+              <button type="button" class="bg-neutral-700 py-1 px-2 rounded-xs">Leer más</button>
+            </div>
+            }
           </div>
         </div>
         <!-- game requirements -->

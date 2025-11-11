@@ -110,6 +110,48 @@ export class SingleGameDetail implements OnInit {
     return relatedMesage;
   }
 
+  consoleAdapter(consoleData: string) {
+    //console.log(consoleData);
+    //MUST adapt values in the database to avoid doing this
+    switch (consoleData) {
+      case null:
+        return 'PC';
+      case '':
+        return 'PC';
+      case 'PS4':
+        return 'PlayStation 4';
+      case 'ps':
+        return 'PlayStation';
+      case 'psp':
+        return 'PlayStation Portable';
+      case 'ps2':
+        return 'PlayStation 2';
+      case 'ps3':
+        return 'PlayStation 3';
+      case 'Wii':
+        return 'Nintendo Wii';
+      case 'WiiU':
+        return 'Nintendo Wii U';
+      case 'SGenesis':
+        return 'Sega Genesis';
+      case 'Switch':
+        return 'Nintendo Switch';
+      case 'gba':
+        return 'Nintendo Game Boy Advanced';
+      default:
+        return consoleData;
+    }
+  }
+
+  descriptionAdapter(descriptionData: string) {
+    const adaptedDescription = descriptionData.split(' ');
+
+    return {
+      adaptedDescription: adaptedDescription.slice(0, 200).join(' ') + ' ...',
+      readMore: true,
+    };
+  }
+
   scrollToSection() {
     if (this.relatedGamesCarousel) {
       this.relatedGamesCarousel.nativeElement.scrollIntoView({ behavior: 'smooth' });
