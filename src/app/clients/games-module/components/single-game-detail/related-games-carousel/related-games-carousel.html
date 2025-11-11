@@ -1,6 +1,6 @@
-@if(relatedGameList().length > 0) {
+@let gameList = relatedGameList(); @if(gameList.length > 0) {
 
-<div class="card rounded-xs bg-[#090e14]/70 w-full">
+<div class="card rounded-xs bg-[#090e14]/70 max-w-fit mx-auto">
   <!-- <p class="text-center py-2 text-cyan-400">Tenemos estos otros juegos de esta saga</p> -->
   <p-carousel
     [value]="adaptedDataForCarousel"
@@ -8,11 +8,11 @@
     [numScroll]="1"
     [circular]="true"
     [responsiveOptions]="responsiveOptions"
-    autoplayInterval="3000"
+    [autoplayInterval]="autoPlayInterval()"
   >
     <ng-template let-product #item>
       <div
-        [routerLink]="[`/games/${product.friendly_url}`]"
+        (click)="updateSelectedGame(product.friendly_url)"
         class="border border-surface-200 dark:border-surface-700 hover:hover:bg-[#090e14] hover:cursor-pointer hover:dark:border-surface-500 rounded m-2 p-4 w-60"
       >
         <div class="mb-4">

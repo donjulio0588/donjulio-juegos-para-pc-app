@@ -12,7 +12,7 @@
   />
 </div>
 <div id="single-game-main-container" class="bg-[#1b2838]">
-  <div class="relative flex flex-col max-w-[58rem] mx-auto pt-20 gap-2">
+  <div class="relative flex flex-col max-w-[74rem] mx-auto pt-20 gap-2">
     <h3 class="col-span-6 text-3xl font-normal">
       {{ activatedGame.name }}
     </h3>
@@ -67,18 +67,22 @@
       <div id="imagesThumbs" class="flex flex-col col-span-4 overflow-y-auto">
         <div class="">
           <p-galleria
-            [value]="imageGallery"
+            [value]="imageGallery()"
             [autoPlay]="true"
             [circular]="true"
             [responsiveOptions]="responsiveOptions"
             [numVisible]="4"
-            [containerStyle]="{ 'max-width': '640px', border: 'none', borderRadius: '0' }"
+            [containerStyle]="{
+              'max-width': 'fill',
+              border: 'none',
+              borderRadius: '0',
+            }"
           >
             <!-- ActivatedImage -->
             <ng-template #item let-item>
               <img
                 [src]="item.itemImageSrc"
-                class="w-full h-[22rem] block object-cover flex-1 !rounded-none"
+                class="w-full h-[29rem] block object-cover flex-1 !rounded-none"
               />
             </ng-template>
             <!-- Thumbnails -->

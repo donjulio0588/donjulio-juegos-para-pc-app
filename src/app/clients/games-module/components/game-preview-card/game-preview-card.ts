@@ -21,6 +21,7 @@ export class GameCard implements OnInit {
 
   setSelectedGame() {
     this.selectedGameService.setSelectedGame(this.game());
+    this.selectedGameService.setImageGallery(this.game());
   }
 
   // removeGame(gameId: string) {

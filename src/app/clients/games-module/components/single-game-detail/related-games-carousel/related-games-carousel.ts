@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, inject, input, signal, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-//import { Product } from '@/domain/product';
-//import { ProductService } from '@/service/productservice';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
@@ -9,14 +7,13 @@ import { GlobalStore } from '@app/store';
 import { Game, RelatedGamesInitialState, RelatedGames } from '@app/core/models';
 import { SingleRelatedGameAdapter } from '@app/core/adapters/related.games.adapter';
 import { clsx } from 'clsx';
-import { UpperCasePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { UpperCasePipe, Location } from '@angular/common';
 import { SelectedGameService } from '@app/core/services/selected-game.service';
 import { FetchGames } from '@app/core/services/fetch-games';
 
 @Component({
   selector: 'app-related-games-carousel',
-  imports: [Carousel, ButtonModule, Tag, UpperCasePipe, RouterLink],
+  imports: [Carousel, ButtonModule, Tag, UpperCasePipe],
   templateUrl: './related-games-carousel.html',
   styleUrl: './related-games-carousel.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,13 +26,18 @@ export class RelatedGamesCarousel implements OnInit {
   adaptedDataForCarousel: Array<RelatedGames> = [RelatedGamesInitialState];
   responsiveOptions: any[] | undefined;
   gameNameForUrl: string = '';
+  autoPlayInterval = signal(5000);
+
+  @ViewChild('item' as 'carouselComponent') carouselComponent!: Carousel;
+
+  constructor(private location: Location) {}
 
   ngOnInit() {
     this.adaptedDataForCarousel = SingleRelatedGameAdapter(this.relatedGameList());
     this.responsiveOptions = [
       {
         breakpoint: '1400px',
-        numVisible: 3,
+        numVisible: 4,
         numScroll: 1,
       },
       {
@@ -54,7 +56,6 @@ export class RelatedGamesCarousel implements OnInit {
         numScroll: 1,
       },
     ];
-    // console.log(this.adaptedDataForCarousel);
   }
 
   // getSeverity(status: boolean) {
@@ -68,57 +69,22 @@ export class RelatedGamesCarousel implements OnInit {
   //   }
   // }
 
-  // setSelectedGame(gameFriendlyUrl: string) {
-  //   const requestSelectedGame = this.gameService.getOneGameByFriendlyUrl(gameFriendlyUrl);
+  updateSelectedGame(gameFriendlyUrl: string) {
+    const requestSelectedGame = this.gameService.getOneGameByFriendlyUrl(gameFriendlyUrl);
 
-  //   requestSelectedGame.subscribe((game) => {
-  //     console.log(game);
-  //     this.selectedGameService.setSelectedGame(game);
-  //   });
-  // }
-
-  // setSelectedGame(selectedGameId: string) {
-  //   const gameWithCalculatedData = this.gameService.getOneGameByFriendlyUrl(selectedGameId);
-
-  //   gameWithCalculatedData.subscribe((game: Game) => {
-  //     this.selectedGameService.setSelectedGame(game);
-  //     this.imageGallery = [
-  //       {
-  //         itemImageSrc: `http://localhost:4000/api/games/images/game-images/splash1/${gameInfo.image1}`,
-  //         thumbnailImageSrc: `http://localhost:4000/api/games/images/game-images/splash1/${gameInfo.image1}`,
-  //         alt: 'Description for Image 1',
-  //         title: 'Title 1',
-  //       },
-  //       {
-  //         itemImageSrc: `http://localhost:4000/api/games/images/game-images/splash2/${gameInfo.image2}`,
-  //         thumbnailImageSrc: `http://localhost:4000/api/games/images/game-images/splash2/${gameInfo.image2}`,
-  //         alt: 'Description for Image 2',
-  //         title: 'Title 2',
-  //       },
-  //       {
-  //         itemImageSrc: `http://localhost:4000/api/games/images/game-images/splash3/${gameInfo.image3}`,
-  //         thumbnailImageSrc: `http://localhost:4000/api/games/images/game-images/splash3/${gameInfo.image3}`,
-  //         alt: 'Description for Image 3',
-  //         title: 'Title 3',
-  //       },
-  //       {
-  //         itemImageSrc: `http://localhost:4000/api/games/images/game-images/splash4/${gameInfo.image4}`,
-  //         thumbnailImageSrc: `http://localhost:4000/api/games/images/game-images/splash4/${gameInfo.image4}`,
-  //         alt: 'Description for Image 4',
-  //         title: 'Title 4',
-  //       },
-  //     ];
-  //   });
-  // }
+    requestSelectedGame.subscribe((game) => {
+      this.selectedGameService.setSelectedGame(game);
+      this.selectedGameService.setImageGallery(game);
+      this.location?.replaceState(`/games/${gameFriendlyUrl}`);
+      this.forceScrollToTop();
+    });
+  }
 
   availableTagStyle(availability: boolean) {
     return clsx(availability ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800');
   }
 
-  getRelatedGames(relationNumber: number) {
-    const allGames = this.store.gamesData().games;
-    const filteredRelated = allGames.filter((game) => game.related === relationNumber);
-    console.log('Hola');
-    console.log(filteredRelated);
+  forceScrollToTop() {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 }
