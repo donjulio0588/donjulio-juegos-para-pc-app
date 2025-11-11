@@ -34,7 +34,13 @@ export class RelatedGamesCarousel implements OnInit {
 
   ngOnInit() {
     this.adaptedDataForCarousel = SingleRelatedGameAdapter(this.relatedGameList());
+
     this.responsiveOptions = [
+      {
+        breakpoint: '2160px',
+        numVisible: 4,
+        numScroll: 1,
+      },
       {
         breakpoint: '1400px',
         numVisible: 4,
@@ -77,6 +83,7 @@ export class RelatedGamesCarousel implements OnInit {
       this.selectedGameService.setImageGallery(game);
       this.location?.replaceState(`/games/${gameFriendlyUrl}`);
       this.forceScrollToTop();
+      this.adaptedDataForCarousel = SingleRelatedGameAdapter(game.calculatedInfo.relatedGamesList);
     });
   }
 

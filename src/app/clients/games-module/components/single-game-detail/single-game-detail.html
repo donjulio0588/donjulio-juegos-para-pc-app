@@ -30,7 +30,7 @@
             height="400"
             alt="Game image"
             [title]="activatedGame.name"
-            class="w-full h-[11rem] xl:h-[12rem] object-cover mb-4"
+            class="w-full h-[11rem] xl:h-[13rem] object-fit mb-4"
           />
         </div>
         <!-- game main info -->
@@ -50,9 +50,15 @@
             <span class="text-neutral-400">{{ 'Géneros: ' | uppercase }}</span>
             <span class="text-blue-300">{{ activatedGame.genres }}</span>
           </small>
+          @if(activatedGame.recomended) {
+          <small class="my-2 flex gap-1 items-center">
+            <span class="text-neutral-400">Don Julio juego Recomendado</span>
+            <!-- <span class="text-blue-300">{{ activatedGame.genres }}</span> -->
+          </small>
+          }
         </div>
         <!-- Some other features -->
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-x-2 gap-y-1">
           <small class="text-neutral-400 opacity-50">Otras características de este producto:</small>
           <!-- Related games info message -->
           <small
@@ -60,6 +66,18 @@
             (click)="scrollToSection()"
             >{{ relatedGamePersonalizedMessage() }}
           </small>
+          <!-- Warning for unavailable game -->
+          @if(activatedGame.inactive) {
+          <small
+            class="bg-red-500/60 text-red-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700 hover:text-white"
+            >Juego no disponible</small
+          >
+          } @if(activatedGame.console) {
+          <small
+            class="bg-yellow-500/60 text-yellow-300 w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-700 hover:text-white"
+            >Advertencia de juego emulado</small
+          >
+          }
         </div>
       </div>
 
@@ -192,6 +210,20 @@
             <span class="text-neutral-400 w-[6.3rem]">{{ 'Multijugador: ' | uppercase }}</span>
             <p class="bg-[#121e27] text-blue-300 px-2 py-1 flex-1">
               {{ activatedGame.multiplayer }}
+            </p>
+          </small>
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-play me-1"></span>
+            <span class="text-neutral-400 w-[6.3rem]">{{ 'Plataforma: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 flex-1">
+              {{ activatedGame.console }}
+            </p>
+          </small>
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-lock-open me-1"></span>
+            <span class="text-neutral-400 w-[6.3rem]">{{ 'para niños: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 flex-1">
+              {{ activatedGame.for_kids ? 'Si' : 'No' }}
             </p>
           </small>
         </div>
