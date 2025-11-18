@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class FirstWordsPipe implements PipeTransform {
-  transform(value: string, wordCount: number = 60): string {
+  transform(value: string, wordCount: number = 200): string {
     if (!value) return '';
 
     // Split the text into words and remove empty strings

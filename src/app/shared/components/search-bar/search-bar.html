@@ -1,6 +1,10 @@
-<div class="card flex flex-wrap justify-center gap-4 my-3">
-  <p-iconfield>
-    <p-inputicon class="pi pi-search" />
-    <input type="text" pInputText placeholder="Search" />
-  </p-iconfield>
-</div>
+<p-floatlabel variant="on" class="flex items-center">
+  <input pInputText id="on_label" [(ngModel)]="value3" autocomplete="off" class="rounded-xs" />
+  <i
+    title="Has clic para buscar"
+    role="button"
+    value="Search"
+    class="pi pi-search border border-neutral-700 rounded-xs p-3 bg-green-600 text-white"
+  ></i>
+  <label for="on_label">Buscar en la tienda</label>
+</p-floatlabel>

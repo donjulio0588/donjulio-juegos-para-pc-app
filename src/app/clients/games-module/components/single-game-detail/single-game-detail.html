@@ -30,7 +30,7 @@
             height="400"
             alt="Game image"
             [title]="activatedGame.name"
-            class="w-full h-[11rem] xl:h-[13rem] object-fit mb-4"
+            class="w-full h-[13rem] object-fit mb-4"
           />
         </div>
         <!-- game main info -->
@@ -110,39 +110,24 @@
               >Juego con contenido adicional</small
             >
             }
+            <!-- Warning for known issues -->
+            @if(!activatedGame.known_issues) {
+            <small
+              #issueWarning
+              pTooltip="Has clic para ver los detalles de esta advertencia."
+              tooltipPosition="top"
+              tooltipStyleClass="text-sm"
+              (click)="goToIssueSection()"
+              class="bg-[#70654c] text-[#d8bd84] w-fit py-1 px-2 rounded-xs text-xs cursor-pointer hover:bg-[#ac8d3e] hover:text-[#f7e6c0]"
+              >Advertencia de aquisición</small
+            >
+            }
           </div>
         </div>
       </div>
 
-      <!-- LEFT SIDE ON LARGE VIEW IMG GALLERY-->
-      <div id="imagesThumbs" class="flex flex-col col-span-4 overflow-y-auto">
-        <div class="">
-          <p-galleria
-            [value]="imageGallery()"
-            [autoPlay]="true"
-            [circular]="true"
-            [responsiveOptions]="responsiveOptions"
-            [numVisible]="4"
-            [containerStyle]="{
-              'max-width': 'fill',
-              border: 'none',
-              borderRadius: '0',
-            }"
-          >
-            <!-- ActivatedImage -->
-            <ng-template #item let-item>
-              <img
-                [src]="item.itemImageSrc"
-                class="w-full h-[29rem] block object-cover flex-1 !rounded-none"
-              />
-            </ng-template>
-            <!-- Thumbnails -->
-            <ng-template #thumbnail let-item>
-              <img [src]="item.thumbnailImageSrc" class="block px-1" [alt]="item.alt" />
-            </ng-template>
-          </p-galleria>
-        </div>
-      </div>
+      <!-- IMAGE GALLERY-->
+      <app-single-game-image-gallery class="col-span-4" />
     </div>
     <!-- ********************************************************** -->
 
@@ -261,11 +246,17 @@
             </p>
           </small>
         </div>
+        <!-- Issues -->
         @if(!activatedGame.known_issues) {
         <div
           id="issue-block"
-          class="bg-[#090e14]/90 p-4 shadow-md w-full h-[10rem] rounded-sm"
-        ></div>
+          class="flex flex-col text-[#e1c48a] bg-[#090e14]/90 p-3 gap-2 shadow-md w-full h-[10rem] rounded-sm"
+        >
+          <h4>Issue_name</h4>
+          <div class="bg-[#e1c48a]/60 text-[#e1c48a] flex-1 w-full h-fill rounded-xs px-1.5">
+            <small>issue_description</small>
+          </div>
+        </div>
         }
       </div>
 
@@ -275,13 +266,29 @@
         <div id="game-description-container">
           <p>{{ 'acerca de este juego' | uppercase }}</p>
           <p-divider type="solid" />
-          <div id="about-game-description" class="text-neutral-300 text-sm mt-2 h-auto">
-            {{ descriptionAdapter(activatedGame.description).adaptedDescription }}
-            @if(descriptionAdapter(activatedGame.description).readMore){
-            <div id="readMore" class="flex flex-col items-center border border-amber-300">
-              <p-divider />
-              <button type="button" class="bg-neutral-700 py-1 px-2 rounded-xs">Leer más</button>
+          <div id="about-game-description" class="text-neutral-300 text-sm mt-2">
+            <div class="">
+              @if(!showFullDescription()) {
+              <!-- Truncated to first 200 words -->
+              {{ activatedGame.description | firstWords }}
+              } @if(showFullDescription()) {
+              <!-- Full description -->
+              {{ activatedGame.description }}
+              }
             </div>
+            <!-- Toggle button moved outside the collapsible container so it's never clipped -->
+            @if(activatedGame.description && activatedGame.description.split(' ').length > 200) {
+            <div id="readMore" class="flex flex-col items-center">
+              <p-divider class="shadow-['2px_5px_10px_12px'] shadow-amber-300" />
+              <button
+                type="button"
+                class="bg-neutral-700 text-white py-1 px-3 rounded-sm cursor-pointer hover:bg-neutral-800 transition-all"
+                (click)="toggleDescription()"
+              >
+                {{ showFullDescription() ? 'Leer menos' : 'Leer más' }}
+              </button>
+            </div>
+
             }
           </div>
         </div>
@@ -289,17 +296,17 @@
         <div id="game-requirements-container">
           <p>{{ 'requisitos del sistema' | uppercase }}</p>
           <p-divider type="solid" />
-          <div id="inner-requirementes-container" class="flex mt-4">
+          <div id="inner-requirementes-container" class="grid grid-cols-2 mt-4">
             <div id="minimum">
               <h4 class="text-neutral-400 text-xs">{{ 'Mínimos:' | uppercase }}</h4>
               <div class="text-neutral-300 text-sm mt-2 h-auto p-2">
-                {{ activatedGame.requirements }}
+                {{ requirementsAdapter(activatedGame.requirements, 'min') }}
               </div>
             </div>
             <div id="recomended">
               <h4 class="text-neutral-400 text-xs">{{ 'Recomendados:' | uppercase }}</h4>
               <div class="text-neutral-300 text-sm mt-2 h-auto p-2">
-                {{ activatedGame.requirements }}
+                {{ requirementsAdapter(activatedGame.requirements, 'rec') }}
               </div>
             </div>
           </div>

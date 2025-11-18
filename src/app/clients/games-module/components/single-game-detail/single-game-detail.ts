@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { SelectedGameService } from '@app/core/services/selected-game.service';
 import { computed } from '@angular/core';
@@ -18,6 +19,10 @@ import { ButtonModule } from 'primeng/button';
 import clsx from 'clsx';
 import { filter } from 'rxjs';
 import { RelatedGamesCarousel } from './related-games-carousel/related-games-carousel';
+import { FirstWordsPipe } from '@app/shared/pipes/first-words.pipe';
+import { SingleGameImageGallery } from './single-game-image-gallery/single-game-image-gallery';
+import { Tooltip } from 'primeng/tooltip';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-single-game-detail',
@@ -30,6 +35,10 @@ import { RelatedGamesCarousel } from './related-games-carousel/related-games-car
     DividerModule,
     ButtonModule,
     RelatedGamesCarousel,
+    FirstWordsPipe,
+    SingleGameImageGallery,
+    Tooltip,
+    InputTextModule,
   ],
   templateUrl: './single-game-detail.html',
   styleUrl: './single-game-detail.css',
@@ -40,25 +49,13 @@ export class SingleGameDetail implements OnInit {
   private gameService = inject(FetchGames);
   private route = inject(Router);
   protected selectedGame = computed(() => this.selectedGameService.getSelectedGame()());
-  protected imageGallery = computed(() => this.selectedGameService.getImageGallery());
+  //protected imageGallery = computed(() => this.selectedGameService.getImageGallery());
   protected activeImage: string | undefined;
+  // Signal to control whether to show the full description or the truncated one
+  protected showFullDescription = signal(false);
 
   @ViewChild('relatedGamesCarousel') relatedGamesCarousel!: ElementRef;
-
-  responsiveOptions: any[] = [
-    {
-      breakpoint: '1300px',
-      numVisible: 4,
-    },
-    {
-      breakpoint: '968px',
-      numVisible: 2,
-    },
-    {
-      breakpoint: '575px',
-      numVisible: 1,
-    },
-  ];
+  @ViewChild('issueWarning') issueSection!: ElementRef;
 
   setActiveImage(imageUrl: string | undefined) {
     if (!imageUrl) return;
@@ -143,13 +140,8 @@ export class SingleGameDetail implements OnInit {
     }
   }
 
-  descriptionAdapter(descriptionData: string) {
-    const adaptedDescription = descriptionData.split(' ');
-
-    return {
-      adaptedDescription: adaptedDescription.slice(0, 200).join(' ') + ' ...',
-      readMore: true,
-    };
+  toggleDescription() {
+    this.showFullDescription.update((v) => !v);
   }
 
   scrollToSection() {
@@ -163,5 +155,40 @@ export class SingleGameDetail implements OnInit {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       // this.updateImageGaleryAndActiveImage(this.selectedGame()); //FIX
     });
+  }
+
+  goToIssueSection() {
+    if (this.issueSection) {
+      this.issueSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  requirementsAdapter(requirementsData: string, requirementsType: string): string {
+    // should be replaced if we can fix data in the data base
+    let adaptedRequirements = requirementsData;
+
+    const getSplitter = (): string => {
+      let splitter: string = '';
+      //console.log(requirementsData);
+      if (requirementsData.includes('Recomendados')) splitter = 'Recomendados';
+      if (requirementsData.includes('Recomendado')) splitter = 'Recomendado';
+      if (requirementsData.includes('recomendados')) splitter = 'recomendados';
+      if (requirementsData.includes('RECOMENDADO')) splitter = 'RECOMENDADO';
+      if (requirementsData.includes('RECOMENDADOS')) splitter = 'RECOMENDADOS';
+      if (requirementsData.includes('RECOMMENDED')) splitter = 'RECOMMENDED';
+
+      return splitter;
+    };
+
+    if (requirementsData === null) return 'No hay requisitos para este juego aun';
+    if (!getSplitter() && requirementsType == 'min') return requirementsData;
+    if (requirementsType === 'min') {
+      adaptedRequirements = requirementsData.split(getSplitter())[0];
+    }
+    if (requirementsType === 'rec') {
+      adaptedRequirements = requirementsData.split(getSplitter())[1];
+    }
+
+    return adaptedRequirements;
   }
 }

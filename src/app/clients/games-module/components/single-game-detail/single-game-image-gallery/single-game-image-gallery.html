@@ -1,0 +1,28 @@
+<div id="imagesThumbs" class="flex flex-col col-span-4 overflow-y-auto">
+  <div class="">
+    <p-galleria
+      [value]="imageGallery()"
+      [autoPlay]="false"
+      [circular]="true"
+      [responsiveOptions]="responsiveOptions"
+      [numVisible]="4"
+      [containerStyle]="{
+              'max-width': 'fill',
+              border: 'none',
+              borderRadius: '0',
+            }"
+    >
+      <!-- ActivatedImage -->
+      <ng-template #item let-item>
+        <img
+          [src]="item.itemImageSrc"
+          class="w-full h-[29rem] block object-cover flex-1 !rounded-none"
+        />
+      </ng-template>
+      <!-- Thumbnails -->
+      <ng-template #thumbnail let-item>
+        <img [src]="item.thumbnailImageSrc" class="block px-1" [alt]="item.alt" />
+      </ng-template>
+    </p-galleria>
+  </div>
+</div>

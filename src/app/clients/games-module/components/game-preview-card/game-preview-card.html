@@ -4,8 +4,18 @@
   (click)="setSelectedGame()"
   class="relative border border-neutral-700 rounded-md hover:scale-[1.02] transition-all duration-200 ease-in-out shadow-md cursor-pointer"
 >
-  <!-- [ngSrc]="gameLocal.poster" -->
-  <!-- check the image height, bug with some images that are higher -->
+  <!-- NEW, Updated, repaired, recovered, only one option must be showing up -->
+  @if(gameLocal.new) {
+  <small
+    class="absolute left-1 top-1 bg-red-300 text-red-800 px-2 py-0.5 rounded-sm font-bold drop-shadow-md shadow-black"
+    >{{ 'Nuevo' | uppercase }}</small
+  >
+  } @if(gameLocal.updated){
+  <small
+    class="absolute left-1 top-1 bg-orange-300 text-orange-700 px-2 py-0.5 rounded-sm font-bold drop-shadow-md shadow-black"
+    >{{ 'Actualizado' | uppercase }}</small
+  >
+  }
   <img
     src="http://localhost:4000/api/games/images/game-images/main/{{ gameLocal.poster }}"
     width="200"

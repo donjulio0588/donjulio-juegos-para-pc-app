@@ -1,0 +1,14 @@
+/* Smooth expand/collapse for the description area */
+.description-container {
+  /* overflow: hidden; */
+  transition: max-height 350ms ease, opacity 250ms ease, padding 250ms ease;
+  max-height: 350px; /* collapsed height (approx 200 words height depends on font) */
+}
+
+.description-container.expanded {
+  max-height: 2000px; /* large enough to show full content */
+}
+
+.description-content {
+  transition: trasform 350ms ease, opacity 250ms ease;
+}

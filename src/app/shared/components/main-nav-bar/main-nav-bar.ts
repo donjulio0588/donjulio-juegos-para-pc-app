@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import { SearchBar } from '../search-bar/search-bar';
 
 @Component({
   selector: 'app-main-nav-bar',
   templateUrl: './main-nav-bar.html',
   standalone: true,
-  imports: [Menubar],
+  imports: [Menubar, FormsModule, InputTextModule, SearchBar],
 })
 export class MainNavBar implements OnInit {
   items: MenuItem[] | undefined;

@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angu
 import { Game } from '@app/core/models';
 import { SelectedGameService } from '@app/core/services/selected-game.service';
 import { RouterLink } from '@angular/router';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-game-preview',
-  imports: [RouterLink],
+  imports: [RouterLink, UpperCasePipe],
   templateUrl: './game-preview-card.html',
   styleUrl: './game-preview-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
