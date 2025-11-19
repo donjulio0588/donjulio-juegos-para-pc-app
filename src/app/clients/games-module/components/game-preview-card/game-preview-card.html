@@ -6,14 +6,15 @@
 >
   <!-- NEW, Updated, repaired, recovered, only one option must be showing up -->
   @if(gameLocal.new) {
-  <small
-    class="absolute left-1 top-1 bg-red-300 text-red-800 px-2 py-0.5 rounded-sm font-bold drop-shadow-md shadow-black"
-    >{{ 'Nuevo' | uppercase }}</small
+  <p-tag
+    severity="success"
+    class="absolute left-1 top-1 text-xs  bg-green-400/90 text-green-900 pe-0.5 py-0.5 rounded-sm">{{ 'Nuevo' | uppercase }}</p-tag
   >
-  } @if(gameLocal.updated){
-  <small
-    class="absolute left-1 top-1 bg-orange-300 text-orange-700 px-2 py-0.5 rounded-sm font-bold drop-shadow-md shadow-black"
-    >{{ 'Actualizado' | uppercase }}</small
+  } @if(!gameLocal.updated){
+  <p-tag
+    class="absolute left-1 top-1 text-xs bg-yellow-400/90 text-yellow-900 pe-0.5 py-0.5 rounded-sm "
+    severity="warning"
+    >{{ 'Actualizado' | uppercase }}</p-tag
   >
   }
   <img
