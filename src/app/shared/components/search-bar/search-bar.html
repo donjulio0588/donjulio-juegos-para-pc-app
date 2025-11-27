@@ -1,10 +1,12 @@
 <p-floatlabel variant="on" class="flex items-center">
-  <input pInputText id="on_label" [(ngModel)]="value3" autocomplete="off" class="rounded-xs" />
+  <input pInputText id="on_label" [(ngModel)]="gameName" autocomplete="off" class="rounded-xs" />
   <i
     title="Has clic para buscar"
-    role="button"
+    role="submit"
+    [routerLink]="['/games/search']"
+    (click)="onSubmit()"
     value="Search"
-    class="pi pi-search border border-neutral-700 rounded-xs p-3 bg-green-600 text-white"
+    class="pi pi-search border border-neutral-700 rounded-xs p-3 bg-green-600 text-white cursor-pointer hover:bg-green-700 transition-all duration-200 ease-in-out"
   ></i>
   <label for="on_label">Buscar en la tienda</label>
 </p-floatlabel>

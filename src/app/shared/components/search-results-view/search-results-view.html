@@ -1,0 +1,42 @@
+<app-main-nav-bar/>
+<section id="search-results" class="mt-16  bg-[var(--main-bg-color)] min-h-[calc(100vh-100px)]">
+  <div class="search-results-container w-[95%] mx-auto">
+    <!-- Search Results Header -->
+    <div class="flex items-center bg-linear-to-r from-[var(--main-bg-color)] via-[var(--secondary-bg-color)] to-[var(--main-bg-color)] h-20">
+      <h3 class="text-neutral-300 text-xl font-light">Todos los productos</h3>
+    </div>
+    <!-- Search Results Content Container Grid -->
+    <div class="grid grid-cols-8 gap-3 mt-2">
+      <!-- LEFT SIDE -->
+      <div class="col-span-5 flex flex-col gap-1">
+        <!-- Search Options -->
+        <div id="search-options" class="flex justify-end items-center gap-2 bg-[var(--tertiary-bg-color)] rounded-sm p-2 text-xs text-[var(--blue-text-color)]">
+          Ordenar por:
+          <p-select [options]="sortOrder" size="small" [(ngModel)]="selectedSortOrder" optionLabel="name" placeholder="Select an option" class="w-full md:w-56 rounded-sm " />
+        </div>
+        <!-- Search Results -->
+        <div id="search-results-content" class="flex flex-col gap-1">
+          <p class="text-[var(--yellow-text-color)] bg-[var(--tertiary-bg-color)] p-2 text-xs rounded-xs">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi saepe alias vero ipsam ea odit ab quos quam provident, maiores dignissimos fugiat iusto. Recusandae itaque et qui sint! Quisquam, laudantium!</p>
+          <!-- AQUI SE RENDERIZA TODOS LOS PRODUCTOS -->
+          <div class="bg-[var(--tertiary-bg-color)] p-2 rounded-xs  h-[calc(100vh-200px)]">
+            @let foundedGames = this.foundedGames();@if(foundedGames.length) {
+              <p>Hay juegos</p>
+            }
+            @else {
+              <div class="bg-[var(--tertiary-bg-color)] p-2 rounded-xs">
+                <p>No se encontraron resultados</p>
+              </div>
+            }
+            
+          </div>
+        </div>
+      </div>
+      <!-- RIGHT SIDE -->
+      <div class="col-span-3 bg-[var(--tertiary-bg-color)] h-full">
+          
+      </div>
+      </div>
+    </div>
+
+</section>
+

@@ -1,19 +1,29 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { InputIcon } from 'primeng/inputicon';
-import { IconField } from 'primeng/iconfield';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
+import { GlobalStore } from '@app/store';
+import { Game } from '@app/core/models';
+import { RouterLink } from '@angular/router';
+import { SearchResultData } from '@app/core/services/search-result-data.service';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [InputTextModule, FormsModule, InputTextModule, FloatLabel],
+  imports: [InputTextModule, FormsModule, InputTextModule, FloatLabel, RouterLink],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBar {
-  value1: string | undefined;
-  value2: string | undefined;
-  value3: string | undefined;
+  gameName: string | undefined;
+  searchResultService = inject(SearchResultData);
+  //store = inject(GlobalStore);
+  //foundedGames: Array<Game> = [];
+
+
+  onSubmit() {
+    console.log(this.gameName);
+    //add functionality to allow change the mode to 'startsWith' or 'contains' storing the value int the localStorage
+    this.searchResultService.searchGames({ gameName: this.gameName ?? '', mode: 'contains' });
+  }
 }

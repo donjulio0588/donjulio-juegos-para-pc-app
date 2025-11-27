@@ -245,6 +245,14 @@
               {{ activatedGame.for_kids ? 'Si' : 'No' }}
             </p>
           </small>
+          <!-- REPACKER | FIX THIS -->
+          <small class="mb-[2px] flex gap-1 items-center">
+            <span class="pi pi-briefcase me-1"></span>
+            <span class="text-neutral-400 w-[6.3rem]">{{ 'repacker: ' | uppercase }}</span>
+            <p class="bg-[#121e27] text-blue-300 px-2 py-1 flex-1">
+              Fitgirl | Elamigos
+            </p>
+          </small>
         </div>
         <!-- Issues -->
         @if(!activatedGame.known_issues) {

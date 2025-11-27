@@ -23,6 +23,7 @@ export class FetchGames {
       .pipe(map((game) => GameAdapter(game)));
   }
 
+  //get one game by friendly url or id
   getOneGameByFriendlyUrl(friendlyUrl: string): Observable<Game> {
     return this.http.get<Game>(`${this.baseUrl}/${friendlyUrl}`).pipe(
       map((game) => SingleGameAdapter(game)),
