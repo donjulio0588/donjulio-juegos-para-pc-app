@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { GlobalStore } from '@app/store';
+import { Injectable } from '@angular/core';
 
 interface RelatedGames {
   id: string;
@@ -13,7 +12,6 @@ interface RelatedGames {
   providedIn: 'root',
 })
 export class GetRelatedGames {
-  //.store = inject(GlobalStore);
   protected relatedGames: Array<RelatedGames> = [];
 
   getRelated(relationNumber: number) {

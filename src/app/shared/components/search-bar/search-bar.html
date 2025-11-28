@@ -1,5 +1,6 @@
 <p-floatlabel variant="on" class="flex items-center">
-  <input pInputText id="on_label" [(ngModel)]="gameName" autocomplete="off" class="rounded-xs" />
+  <input pInputText id="on_label" [(ngModel)]="gameName" autocomplete="off" class="rounded-xs" (keydown.enter)="onSubmit()"
+    (keydown.return)="onSubmit()" />
   <i
     title="Has clic para buscar"
     role="submit"

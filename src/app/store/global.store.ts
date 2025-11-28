@@ -1,7 +1,7 @@
 import { effect, inject, input } from '@angular/core';
 import { Game, GameInfo } from '@app/core/models';
-import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage';
-import { FetchGames } from '@app/core/services/fetch-games';
+import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage.service';
+import { FetchGames } from '@app/core/services/fetch-games.service';
 import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
 import { lastValueFrom, map, Observer } from 'rxjs';
 

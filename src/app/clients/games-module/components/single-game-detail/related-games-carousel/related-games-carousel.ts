@@ -9,7 +9,7 @@ import { SingleRelatedGameAdapter } from '@app/core/adapters/related.games.adapt
 import { clsx } from 'clsx';
 import { UpperCasePipe, Location } from '@angular/common';
 import { SelectedGameService } from '@app/core/services/selected-game.service';
-import { FetchGames } from '@app/core/services/fetch-games';
+import { FetchGames } from '@app/core/services/fetch-games.service';
 
 @Component({
   selector: 'app-related-games-carousel',
@@ -30,7 +30,7 @@ export class RelatedGamesCarousel implements OnInit {
 
   @ViewChild('item' as 'carouselComponent') carouselComponent!: Carousel;
 
-  constructor(private location: Location) {}
+  constructor(private location: Location) { }
 
   ngOnInit() {
     this.adaptedDataForCarousel = SingleRelatedGameAdapter(this.relatedGameList());

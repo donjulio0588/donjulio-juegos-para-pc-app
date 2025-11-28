@@ -7,9 +7,9 @@ import { MainNavBar } from '@app/shared/components/main-nav-bar/main-nav-bar';
 import { SearchBar } from '@app/shared/components/search-bar/search-bar';
 import { GamesCarousel } from '@app/shared/components/carrousel/carrousel';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { FetchGames } from '@app/core/services/fetch-games';
+import { FetchGames } from '@app/core/services/fetch-games.service';
 import { lastValueFrom } from 'rxjs';
-import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage';
+import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage.service';
 
 @Component({
   selector: 'app-main-container',

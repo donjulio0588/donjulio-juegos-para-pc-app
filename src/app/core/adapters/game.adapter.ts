@@ -34,3 +34,23 @@ export const SingleGameAdapter = (singleGameInfo: Game): Game => {
     size: singleGameInfo.size / 1024,
   };
 };
+
+
+export const SearchResultAdapter = (searchResult: { games: Array<Game> }) => {
+  //this is a temporary solution , the idea is to left only the image name in the data base field
+  let fixedGamesURL = searchResult.games.map((game) => {
+    return {
+      ...game,
+      poster: game.poster && game.poster.split('/').reverse()[0],
+      image1: game.image1 && game.image1.split('/').reverse()[0],
+      image2: game.image1 && game.image2.split('/').reverse()[0],
+      image3: game.image1 && game.image3.split('/').reverse()[0],
+      image4: game.image1 && game.image4.split('/').reverse()[0],
+      multiplayer: normalizeMultiplayer(game.multiplayer),
+      version: game.version || 'Desconocido',
+      size: game.size / 1024,
+    };
+  });
+
+  return { games: fixedGamesURL };
+};

@@ -11,7 +11,7 @@ import { SelectedGameService } from '@app/core/services/selected-game.service';
 import { computed } from '@angular/core';
 import { MainNavBar } from '@app/shared/components/main-nav-bar/main-nav-bar';
 import { UpperCasePipe, NgClass, CurrencyPipe } from '@angular/common';
-import { FetchGames } from '@app/core/services/fetch-games';
+import { FetchGames } from '@app/core/services/fetch-games.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { GalleriaModule } from 'primeng/galleria';
 import { DividerModule } from 'primeng/divider';

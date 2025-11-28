@@ -1,0 +1,26 @@
+@if(this.game) {
+  <div class="flex gap-2 bg-[var(--tertiary-bg-color)]/70 rounded-xs cursor-pointer hover:border-[var(--secondary-bg-color)] hover:bg-[var(--tertiary-bg-color)]  hover:shadow-[var(--secondary-bg-color)] border-[1px] border-[var(--tertiary-bg-color)] transition-all duration-300"
+  [routerLink]="[`/games/${game.friendly_url}`]"
+  (click)="setSelectedGame()">
+    <img src="http://localhost:4000/api/games/images/game-images/main/{{game.poster}}" alt="{{game.name}}" class="w-46 h-20 object-cover">
+    <div class="flex flex-col flex-1 p-3 justify-between items-center ">
+      <!-- fix text overflow -->
+      <p class="text-lg  font-thin self-start text-clip">{{ game.name }}</p> 
+      @if(game.console) {
+        <small class="text-sm  self-start text-neutral-500">{{ game.console }}</small>
+      } @else {
+        <span class="pi pi-microsoft text-sm  self-start text-neutral-500"></span>
+      }
+    </div>
+    <div class="flex items-end mb-2 gap-4 w-[6rem]">
+      <p class="text-sm text-[var(--blue-text-color)]">{{ game.year }}</p>
+      @if(game.recomended) {
+        <p class="pi pi-thumbs-up-fill mb-1 text-sm text-[var(--blue-text-color)] rotate-y-180"></p>
+      }
+      @if(game.steam_valoration === "Negativas" || game.steam_valoration === "Muy Negativas") {
+        <p class="pi pi-thumbs-down-fill text-sm  text-red-300/80"></p>
+      }
+    </div>
+    <p class="text-sm my-auto p-2 me-2 w-[4rem]">{{ game.price | currency }}</p>
+</div>
+}

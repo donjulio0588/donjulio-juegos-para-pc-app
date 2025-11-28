@@ -14,7 +14,7 @@ export const routes: Routes = [
   {
     path: 'games/search',
     loadComponent: () =>
-      import('./shared/components/search-results-view/search-results-view').then((m) => m.SearchResultsView),
+      import('./clients/games-module/components/search-results-view/search-results-view').then((m) => m.SearchResultsView),
   },
   {
     path: 'games/:gameName',
