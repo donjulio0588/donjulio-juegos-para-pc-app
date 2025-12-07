@@ -14,11 +14,11 @@ import { TagModule } from 'primeng/tag';
 })
 export class GameCard implements OnInit {
   game = input.required<Game>();
-  gameNameForUrl: string = 'tanjiro';
+  //gameNameForUrl: string = 'tanjiro';
   private selectedGameService = inject(SelectedGameService);
 
   ngOnInit(): void {
-    this.gameNameForUrl = this.game().friendly_url;
+    //this.gameNameForUrl = this.game().friendly_url;
   }
 
   setSelectedGame() {

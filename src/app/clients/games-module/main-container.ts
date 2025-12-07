@@ -39,9 +39,7 @@ export class MainContainer implements OnInit {
   //call the api every time a page is changed
   fetchGamesAPI = async (pageSize: number, pageNumber: number) => {
     const gamesData = await lastValueFrom(this.gameService.getAllGames(pageSize, pageNumber));
-    // console.log(gamesData);
     this.store.updateEntireState(gamesData); //improve in the future
-    //console.log(this.store.gamesData());
   };
 
   //UI component logic

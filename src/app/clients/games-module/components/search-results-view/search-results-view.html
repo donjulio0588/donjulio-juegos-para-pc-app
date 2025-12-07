@@ -6,17 +6,45 @@
       <h3 class="text-neutral-300 text-xl font-light">Todos los productos</h3>
     </div>
     <!-- Search Results Content Container Grid -->
-    <div class="grid grid-cols-8 gap-3 mt-2">
+    <div class="grid grid-cols-8 gap-2 mt-2">
       <!-- LEFT SIDE -->
       <div class="col-span-5 flex flex-col gap-1">
-        <!-- Search Options -->
-        <div id="search-options" class="flex justify-end items-center gap-2 bg-[var(--tertiary-bg-color)] rounded-sm p-2 text-xs text-[var(--blue-text-color)]">
-          Ordenar por:
-          <p-select [options]="sortOrder" size="small" [(ngModel)]="selectedSortOrder" optionLabel="name" placeholder="Select an option" class="w-full md:w-56 rounded-sm " />
+        <!-- Order Options -->
+        <div id="order-options" class="flex justify-end items-center gap-2 bg-[var(--tertiary-bg-color)] rounded-sm p-2 text-[var(--blue-text-color)]">
+          <span class="text-xs">Ordenar por:</span>
+          <p-select [options]="sortOrder" size="small" [(ngModel)]="selectedSortOrder" optionLabel="name" placeholder="Selecciona una opción" class="w-full md:w-56 rounded-sm text-sm" />
         </div>
+        <div class="flex items-center gap-0.5 text-xs">
+          <p class="flex-1 text-[var(--yellow-text-color)] h-full bg-[var(--tertiary-bg-color)] p-2 rounded-xs">{{foundedGames().games.length <= 0 ? "Escriba algo para mostrar los resultados mas abajo" : foundedGames().games.length + " resultados coinciden con la busqueda"}}</p>
+          
+          <!-- Some other configurations -->
+           <!-- <div class="flex items-center cursor-pointer text-[var(--blue-text-color)]  bg-[var(--tertiary-bg-color)]  h-full px-3 hover:bg-[var(--secondary-bg-color)] hover:text-neutral-300 transition-all duration-300 rounded-sm p-2">
+            <p class="pi pi-cog pi-lg"></p>
+           </div> -->
+           
+           <!-- <div class="flex items-center cursor-pointer text-[var(--blue-text-color)]  bg-[var(--tertiary-bg-color)]  h-full px-3 hover:bg-[var(--secondary-bg-color)] hover:text-neutral-300 transition-all duration-300 rounded-sm p-2" (click)="op.toggle($event)">
+            <p-popover #op>
+                <ng-template #content>
+                    <ul>
+                      <li>Contenido</li>
+                      <li>Comienza por</li>
+                    </ul>
+                </ng-template>
+            </p-popover>
+            <span role="button"  class="pi pi-cog pi-lg"></span>
+          </div> -->
+          <!-- Search Methods -->
+          <!-- <p-select [options]="searchMethods" size="small" (onChange)="changeMethod()" [(ngModel)]="selectedMode" optionLabel="name" dropdownIcon="pi pi-cog -translate-x-[1.25rem] hover:text-neutral-300" class="w-[2.5rem] rounded-xs text-sm border-none bg-[var(--tertiary-bg-color)] hover:bg-[var(--secondary-bg-color)] hover:text-neutral-300 transition-all duration-300 text-red-600" /> -->
+
+          <div class="card flex justify-center">
+            <p-selectbutton [options]="searchMethods" [(ngModel)]="selectedMode" optionLabel="name" aria-labelledby="basic" (onChange)="changeMethod()" />
+          </div>
+        </div>
+       
+        
         <!-- Search Results -->
-        <div id="search-results-content" class="flex flex-col gap-1">
-          <p class="text-[var(--yellow-text-color)] bg-[var(--tertiary-bg-color)] p-2 text-xs rounded-xs">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi saepe alias vero ipsam ea odit ab quos quam provident, maiores dignissimos fugiat iusto. Recusandae itaque et qui sint! Quisquam, laudantium!</p>
+        
+         
           <!-- AQUI SE RENDERIZA TODOS LOS PRODUCTOS -->
           <div class="flex flex-col gap-1 rounded-xs  h-fit">
             @if(this.foundedGames().games.length > 0) {
@@ -29,14 +57,24 @@
                 <p>No se encontraron resultados</p>
               </div>
             }
-            
-          </div>
+        </div>
+
+      </div>
+
+
+
+      <!-- RIGHT SIDE -->
+      <div class="col-span-3 bg-[var(--tertiary-bg-color)] h-full p-3">
+        <h3 class="text-[var(--blue-text-color)] text-md p-2 bg-black/50 rounded-sm mb-3">Opciones avanzadas de busqueda</h3>
+          <div class="card flex flex-col gap-2 justify-center border border-[var(--blue-text-color)]/40 rounded-sm p-3">
+            <small class="text-sm text-[var(--blue-text-color)]/60">Filtrar por rango de precio</small>
+            <div class="flex gap-4 align-center justify-between px-2">
+              <p-slider [(ngModel)]="priceFilterRange" range step="5" min="5" max="200" (mouseup)="changePriceFilter()" class="w-fit mx-auto flex-1 translate-y-[1.3rem]" />
+              <input type="text" pInputText value="{{`$${priceFilterRange[0]} - $${priceFilterRange[1]} `}}" disabled class="w-24 text-center px-1"/>
+            </div>
         </div>
       </div>
-      <!-- RIGHT SIDE -->
-      <div class="col-span-3 bg-[var(--tertiary-bg-color)] h-full">
-          
-      </div>
+
       </div>
     </div>
 

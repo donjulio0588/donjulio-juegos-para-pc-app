@@ -1,6 +1,6 @@
 @let gameLocal = game(); @if (gameLocal) {
 <div
-  [routerLink]="[`/games/${gameNameForUrl}`]"
+  [routerLink]="[`/games/${gameLocal.friendly_url}`]"
   (click)="setSelectedGame()"
   class="relative border border-neutral-700 rounded-md hover:scale-[1.02] transition-all duration-200 ease-in-out shadow-md cursor-pointer"
 >
