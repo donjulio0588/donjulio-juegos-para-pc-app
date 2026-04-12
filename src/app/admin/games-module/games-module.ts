@@ -10,10 +10,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @Component({
   selector: 'app-games-module',
-  imports: [MainNavBar, FloatLabelModule, InputTextModule, TextareaModule, ReactiveFormsModule, ButtonModule, SelectModule, CheckboxModule, EditorModule, MultiSelectModule, FormsModule],
+  imports: [MainNavBar, FloatLabelModule, InputTextModule, TextareaModule, ReactiveFormsModule, ButtonModule, SelectModule, CheckboxModule, EditorModule, MultiSelectModule, FormsModule, RadioButtonModule],
   templateUrl: './games-module.html',
   styleUrl: './games-module.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +30,11 @@ export class GamesModule {
 
   steamReviews: { name: string, code: string }[] = [{ name: 'Muy positivas', code: 'very-positive' }, { name: 'Positivas', code: 'positive' }, { name: 'Mixtas', code: 'mixed' }, { name: 'Negativas', code: 'negative' }, { name: 'Muy negativas', code: 'very-negative' }];
 
+  emuladedPlatforms: { name: string, code: string }[] = [{ name: 'PlayStation', code: 'ps' }, { name: 'PlayStation 2', code: 'ps2' }, { name: 'PlayStation 3', code: 'ps3' }, { name: 'PlayStation 4', code: 'ps4' }, { name: "Play Station Portable", code: 'psp' }, { name: 'Xbox 360', code: 'xbox360' }, { name: 'Nintendo', code: 'nintendo' }, { name: 'Nintendo 64', code: 'n64' }, { name: 'GameCube', code: 'gamecube' }, { name: 'Wii', code: 'wii' }, { name: 'Wii U', code: 'wiiu' }, { name: 'Nintendo Switch', code: 'switch' }, { name: 'Arcade', code: 'arcade' }, { name: 'VR', code: 'vr' }];
 
+  //gameType = { name: string, code: string }[] = [{ name: 'Nativo', code: 'native' }, { name: 'Emulado', code: 'emulated' }];
+
+  multiplayer: { name: string, code: string }[] = [{ name: 'Sin conexión', code: 'offline' }, { name: 'LAN', code: 'lan' }, { name: 'Local', code: 'local' }, { name: 'Local (con pantalla dividida)', code: 'localSplitScreen' }];
 
   constructor(private fb: FormBuilder) {
     this.gameAdditionForm = this.fb.group({
@@ -42,12 +47,16 @@ export class GamesModule {
       coverImage: [''],
       screenshots: [''],
       trailer: [''],
-      year: this.years[0],
+      year: '',
       size: [''],
       language: '',
       subtitled: false,
-      points: 0,
-      steamReview: this.steamReviews[0]
+      points: { value: null, disabled: true },
+      steamReview: this.steamReviews[0],
+      emuladedPlatforms: [''],
+      gameType: 0,
+      version: '',
+      multiplayer: this.multiplayer[0].code
     });
   }
 

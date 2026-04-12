@@ -16,7 +16,7 @@
        </p-floatlabel>
      </span>
 
-     <!-- Generos -->
+    <!-- Generos -->
       <p-floatlabel class="w-full md:w-80" variant="on">
         <p-multiselect id="on_label" formControlName="genres" [options]="genres" optionLabel="name" filter [maxSelectedLabels]="5" class="w-full" />
         <label for="on_label">Género(s)</label>
@@ -29,13 +29,33 @@
     </p-floatlabel>
 
     <!-- Plataformas -->
-    <div class="flex gap-2">
-      <!-- <p-floatlabel variant="on">
-        <input pInputText id="on_label" formControlName="gameName" autocomplete="off" class="bg-neutral-700 w-[25rem]" />
-        <label for="on_label">Plataforma(s)</label>
-      </p-floatlabel>
-      <p-button label="Agregar" icon="pi pi-plus" severity="contrast" /> -->
+    <div class="flex flex-col gap-y-4 border border-neutral-700 rounded-md py-2 px-4 w-fit items-center">
+      <p>Tipo de plataforma</p>
+      <div class="flex flex-wrap gap-4">
+            <div class="flex items-center">
+                <p-radiobutton name="gameType" value="0" formControlName="gameType" inputId="native" />
+                <label for="native" class="ml-2">Nativo</label>
+            </div>
+            <div class="flex items-center">
+                <p-radiobutton name="gameType" value="1" formControlName="gameType" inputId="emulated" />
+                <label for="emulated" class="ml-2">Emulado</label>
+            </div>
+            @if (gameAdditionForm.get('gameType')?.value == 1) {
+              <span>
+                <p-floatlabel class="w-full md:w-56" variant="on">
+                  <p-multiselect formControlName="emuladedPlatforms"  inputId="on_label" [options]="emuladedPlatforms" optionLabel="name" filter [maxSelectedLabels]="5" class="w-full" />
+                  <label for="on_label">Seleccione</label>
+                </p-floatlabel>
+              </span>
+            }
+      </div>
     </div>
+
+    <!-- Version -->
+    <p-floatlabel variant="on">
+      <input pInputText id="on_label" formControlName="version" autocomplete="off" />
+      <label for="on_label">Versión</label>
+    </p-floatlabel>
 
     <!-- Año de lanzamiento -->
     <p-floatlabel class="w-full md:w-56" variant="on">
@@ -64,10 +84,33 @@
      <!-- Points -->
      <div class="flex gap-4">
        <p-floatlabel variant="on">
-         <input pInputText id="on_label" formControlName="points"  autocomplete="off" class="bg-neutral-700 w-[5rem]" />
+         <input pInputText id="on_label" name="points" formControlName="points" autocomplete="off" class="bg-neutral-700 w-[5rem]" />
          <label for="on_label">Puntos</label>
        </p-floatlabel>
      </div>
+
+     <!-- Multijugador -->
+      <div class="flex flex-col gap-y-4 border border-neutral-700 rounded-md py-2 px-4 w-fit items-center">
+        <p>Multijugador</p>
+       <div class="flex flex-wrap gap-4">
+            <div class="flex items-center">
+                <p-radiobutton name="multiplayer" value="offline" defaultChecked formControlName="multiplayer" inputId="offline" />
+                <label for="offline" class="ml-2">Sin conexión</label>
+            </div>
+            <div class="flex items-center">
+                <p-radiobutton name="multiplayer" value="lan" formControlName="multiplayer" inputId="lan" />
+                <label for="lan" class="ml-2">LAN</label>
+            </div>
+            <div class="flex items-center">
+                <p-radiobutton name="multiplayer" value="local" formControlName="multiplayer" inputId="local" />
+                <label for="local" class="ml-2">Local</label>
+            </div>
+            <div class="flex items-center">
+                <p-radiobutton name="multiplayer" value="localSplitScreen" formControlName="multiplayer" inputId="localSplitScreen" />
+                <label for="localSplitScreen" class="ml-2">Local (con pantalla dividida)</label>
+            </div>
+           </div>
+      </div>
 
      <!-- Reseñas de Steam -->
        <p-floatlabel class="w-full md:w-56" variant="on">
@@ -75,7 +118,6 @@
         <label for="on_label">Reseñas de Steam</label>
       </p-floatlabel>
      
-
     <!-- Descripcion -->
        <div class="card">
          <p>Sinopsis</p>
