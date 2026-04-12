@@ -10,10 +10,7 @@
       <!-- LEFT SIDE -->
       <div class="col-span-5 flex flex-col gap-1">
         <!-- Order Options -->
-        <div id="order-options" class="flex justify-end items-center gap-2 bg-[var(--tertiary-bg-color)] rounded-sm p-2 text-[var(--blue-text-color)]">
-          <span class="text-xs">Ordenar por:</span>
-          <p-select [options]="sortOrder" size="small" [(ngModel)]="selectedSortOrder" optionLabel="name" placeholder="Selecciona una opción" class="w-full md:w-56 rounded-sm text-sm" />
-        </div>
+        
         <div class="flex items-center gap-0.5 text-xs">
           <p class="flex-1 text-[var(--yellow-text-color)] h-full bg-[var(--tertiary-bg-color)] p-2 rounded-xs">{{foundedGames().games.length <= 0 ? "Escriba algo para mostrar los resultados mas abajo" : foundedGames().games.length + " resultados coinciden con la busqueda"}}</p>
           
@@ -37,14 +34,13 @@
           <!-- <p-select [options]="searchMethods" size="small" (onChange)="changeMethod()" [(ngModel)]="selectedMode" optionLabel="name" dropdownIcon="pi pi-cog -translate-x-[1.25rem] hover:text-neutral-300" class="w-[2.5rem] rounded-xs text-sm border-none bg-[var(--tertiary-bg-color)] hover:bg-[var(--secondary-bg-color)] hover:text-neutral-300 transition-all duration-300 text-red-600" /> -->
 
           <div class="card flex justify-center">
-            <p-selectbutton [options]="searchMethods" [(ngModel)]="selectedMode" optionLabel="name" aria-labelledby="basic" (onChange)="changeMethod()" />
+            <p-selectbutton [options]="searchMethods" [(ngModel)]="selectedMode" optionLabel="name" aria-labelledby="basic" (onChange)="changeMode()" />
           </div>
         </div>
        
         
         <!-- Search Results -->
         
-         
           <!-- AQUI SE RENDERIZA TODOS LOS PRODUCTOS -->
           <div class="flex flex-col gap-1 rounded-xs  h-fit">
             @if(this.foundedGames().games.length > 0) {
@@ -66,11 +62,82 @@
       <!-- RIGHT SIDE -->
       <div class="col-span-3 bg-[var(--tertiary-bg-color)] h-full p-3">
         <h3 class="text-[var(--blue-text-color)] text-md p-2 bg-black/50 rounded-sm mb-3">Opciones avanzadas de busqueda</h3>
-          <div class="card flex flex-col gap-2 justify-center border border-[var(--blue-text-color)]/40 rounded-sm p-3">
-            <small class="text-sm text-[var(--blue-text-color)]/60">Filtrar por rango de precio</small>
+
+        <!-- PRICE FILTER -->
+          <div class="card flex flex-col gap-2 justify-center border border-[var(--blue-text-color)]/20 rounded-sm p-3">
+            <small class="text-sm text-[var(--blue-text-color)]/60">Rango de precio</small>
             <div class="flex gap-4 align-center justify-between px-2">
-              <p-slider [(ngModel)]="priceFilterRange" range step="5" min="5" max="200" (mouseup)="changePriceFilter()" class="w-fit mx-auto flex-1 translate-y-[1.3rem]" />
-              <input type="text" pInputText value="{{`$${priceFilterRange[0]} - $${priceFilterRange[1]} `}}" disabled class="w-24 text-center px-1"/>
+              <p-slider [(ngModel)]="priceFilterRange" range step="5" min="5" max="200" (mouseup)="changePriceFilter()" class="w-fit mx-auto flex-1 translate-y-[1rem]" />
+              <input type="text" pInputText value="{{`$${priceFilterRange[0]} - $${priceFilterRange[1]} `}}" disabled class="w-24 text-center p-1"/>
+            </div>
+          </div>
+
+          <p-divider solid />
+
+          <!-- ORDER BY -->
+          <div id="order-options" class="flex  items-center gap-2 bg-[var(--tertiary-bg-color)] rounded-sm p-2 text-[var(--blue-text-color)]">
+          <small class="text-sm text-[var(--blue-text-color)]/60">Ordenar por:</small>
+          <p-select [options]="sortOrder" size="small" [(ngModel)]="selectedSortOrder" (onChange)="changeOrder()" optionLabel="name" placeholder="Selecciona una opción" class="w-full md:w-56 rounded-sm text-sm" />
+        </div>
+
+        <p-divider solid />
+
+        <!-- SIZE FILTER -->
+          <div class="card flex flex-col gap-2 justify-center border border-[var(--blue-text-color)]/20 rounded-sm p-3">
+            <small class="text-sm text-[var(--blue-text-color)]/60">Rango de tamaños</small>
+            <div class="flex gap-4 align-center justify-between px-2">
+              <p-slider [(ngModel)]="sizeFilterRange" range min="0" max="300" (mouseup)="changeSizeFilter()" class="w-fit mx-auto flex-1 translate-y-[1rem]" />
+              <input type="text" pInputText value="{{`${sizeFilterRange[0]} - ${sizeFilterRange[1]} GB`}}" disabled class="w-28 text-center p-1"/>
+            </div>
+          </div>
+
+          <p-divider solid />
+
+          <!-- LANGUAGE FILTER -->
+          <div class="card flex flex-wrap border border-[var(--blue-text-color)]/20 rounded-sm p-3 gap-4 text-[var(--blue-text-color)]">
+            <small class="text-sm text-[var(--blue-text-color)]/60 w-full">Idiomas</small>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang1" name="spanish" value="spanish"  [(ngModel)]="langValues" (onChange)="changeLanguageFilter()"/>
+                <label for="lang1" class="ml-2"> Español </label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang2" name="subtitled" value="subtitulado" [(ngModel)]="langValues" (onChange)="changeLanguageFilter()"/>
+                <label for="lang2" class="ml-2"> Subtitulado </label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang3" name="english" value="ingles" [(ngModel)]="langValues" (onChange)="changeLanguageFilter()" />
+                <label for="lang3" class="ml-2"> Inglés </label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang4" name="unknown" value="desconocido" [(ngModel)]="langValues" (onChange)="changeLanguageFilter()" />
+                <label for="lang4" class="ml-2"> Desconocido </label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang5" name="others" value="otros" [(ngModel)]="langValues" (onChange)="changeLanguageFilter()" />
+                <label for="lang5" class="ml-2"> Otros </label>
+            </div>
+        </div>
+
+        <p-divider solid />
+
+        <!-- MULTIPLAYER FILTER -->
+          <div class="card flex flex-wrap border border-[var(--blue-text-color)]/20 rounded-sm p-3 gap-4 text-[var(--blue-text-color)]">
+            <small class="text-sm text-[var(--blue-text-color)]/60 w-full">Multijugador</small>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang1" name="local" value="local"  [(ngModel)]="multiplayerValues" (onChange)="changeMultiplayerFilter()"/>
+                <label for="lang1" class="ml-2"> Local </label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang2" name="lan" value="lan" [(ngModel)]="multiplayerValues" (onChange)="changeMultiplayerFilter()"/>
+                <label for="lang2" class="ml-2"> Lan </label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang3" name="internet" value="internet" [(ngModel)]="multiplayerValues" (onChange)="changeMultiplayerFilter()" />
+                <label for="lang3" class="ml-2"> Solo con internet </label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox inputId="lang4" name="unknown" value="unknown" [(ngModel)]="multiplayerValues" (onChange)="changeMultiplayerFilter()" />
+                <label for="lang4" class="ml-2"> Offline </label>
             </div>
         </div>
       </div>
@@ -78,5 +145,5 @@
       </div>
     </div>
 
-</section>
+</section>1
 

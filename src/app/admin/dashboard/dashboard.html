@@ -1,0 +1,28 @@
+<app-main-nav-bar></app-main-nav-bar>
+<div class="dashboard-container mt-16 max-w-7xl mx-auto items-center justify-center p-4 h-[calc(100vh-4rem)]">
+  <div class="flex gap-8 flex-col justify-center items-center h-full transition-all duration-600 ease-in-out">
+      <!-- Games button -->
+      <div class="border border-gray-500 rounded-xl flex gap-4 w-full max-w-2xl items-center hover:bg-gray-200/20 cursor-pointer min-w-[30%]" routerLink="/admin/games">
+        <div class="py-4 px-2 bg-gray-500/20">
+          <p class="pi pi-id-card text-8xl"></p>
+        </div>
+        <div class="flex flex-col gap-2">
+          <p  class="text-3xl">Administrar juegos</p>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, at.</p>
+        </div>
+      </div>
+      <!-- Accountant button -->
+      <div class="border border-gray-500 rounded-xl flex gap-4 w-full max-w-2xl items-center hover:bg-gray-200/20 cursor-pointer min-w-[30%]" routerLink="/admin/accountant">
+        <div class="py-4 px-2 bg-gray-500/20">
+          <p class="pi pi-calculator text-8xl"></p>
+        </div>
+        <div class="flex flex-col gap-2">
+          <p class="text-3xl">Contabilidad</p>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, at.</p>
+        </div>
+      </div>
+  </div>
+  <div class="dashboard-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

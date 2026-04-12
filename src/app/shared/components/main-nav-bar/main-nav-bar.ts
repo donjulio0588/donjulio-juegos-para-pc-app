@@ -27,8 +27,9 @@ export class MainNavBar implements OnInit {
         routerLink: '/games',
       },
       {
-        label: 'Features',
-        icon: 'pi pi-star',
+        label: 'Administrar',
+        icon: 'pi pi-briefcase',
+        routerLink: '/admin',
       },
       {
         label: 'Projects',

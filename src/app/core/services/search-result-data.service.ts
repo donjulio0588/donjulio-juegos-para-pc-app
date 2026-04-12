@@ -33,6 +33,11 @@ export class SearchResultData {
         if (params['mode']) queryParams.push(`mode=${params['mode']}`);
         if (params['startingPrice']) queryParams.push(`startingPrice=${params['startingPrice']}`);
         if (params['endingPrice']) queryParams.push(`endingPrice=${params['endingPrice']}`);
+        if (params['orderBy']) queryParams.push(`orderBy=${params['orderBy']}`);
+        if (params['startingSize']) queryParams.push(`startingSize=${params['startingSize']}`);
+        if (params['endingSize']) queryParams.push(`endingSize=${params['endingSize']}`);
+        if (params['language']) queryParams.push(`language=${params['language']}`);
+        if (params['multiplayer']) queryParams.push(`multiplayer=${params['multiplayer']}`);
         return queryParams;
       };
 

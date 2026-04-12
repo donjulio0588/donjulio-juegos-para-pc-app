@@ -1,0 +1,96 @@
+<app-main-nav-bar></app-main-nav-bar>
+<div class="mt-16 max-w-7xl mx-auto items-center border border-neutral-700 rounded-xl bg-neutral-900/50 justify-center p-4 h-full ">
+
+  <div class="flex gap-4 mx-auto w-fit">
+    <p-button label="Agregar juego" icon="pi pi-plus" severity="contrast" />
+    <p-button label="Editar juego" icon="pi pi-pencil" severity="warn" />
+    <p-button label="Eliminar juego" icon="pi pi-trash" severity="danger" />
+  </div>
+  <form action="" [formGroup]="gameAdditionForm" class="flex flex-col gap-4 p-8" (ngSubmit)="handleGameAddition()">
+    
+    <!-- Nombre -->
+     <span>
+       <p-floatlabel variant="on">
+         <input pInputText id="on_label" formControlName="gameName" autocomplete="off" class="bg-neutral-700 w-[32.5rem]" />
+         <label for="on_label">Nombre del juego</label>
+       </p-floatlabel>
+     </span>
+
+     <!-- Generos -->
+      <p-floatlabel class="w-full md:w-80" variant="on">
+        <p-multiselect id="on_label" formControlName="genres" [options]="genres" optionLabel="name" filter [maxSelectedLabels]="5" class="w-full" />
+        <label for="on_label">Género(s)</label>
+      </p-floatlabel>
+    
+    <!-- Precio -->
+    <p-floatlabel variant="on">
+      <input pInputText id="on_label" formControlName="price" autocomplete="off" />
+      <label for="on_label">Precio</label>
+    </p-floatlabel>
+
+    <!-- Plataformas -->
+    <div class="flex gap-2">
+      <!-- <p-floatlabel variant="on">
+        <input pInputText id="on_label" formControlName="gameName" autocomplete="off" class="bg-neutral-700 w-[25rem]" />
+        <label for="on_label">Plataforma(s)</label>
+      </p-floatlabel>
+      <p-button label="Agregar" icon="pi pi-plus" severity="contrast" /> -->
+    </div>
+
+    <!-- Año de lanzamiento -->
+    <p-floatlabel class="w-full md:w-56" variant="on">
+      <p-select formControlName="year" inputId="on_label" [options]="years" optionLabel="name" class="w-full" />
+      <label for="on_label">Año de lanzamiento</label>
+    </p-floatlabel>
+
+    <!-- Tamaño -->
+    <p-floatlabel variant="on">
+      <input pInputText id="on_label" formControlName="size" autocomplete="off" />
+      <label for="on_label">Tamaño</label>
+    </p-floatlabel>
+
+    <!-- Idioma -->
+     <div class="flex gap-4">
+      <p-floatlabel class="w-full md:w-56" variant="on">
+        <p-select formControlName="language" inputId="on_label" [options]="languages" optionLabel="name" class="w-full" />
+        <label for="on_label">Idioma</label>
+      </p-floatlabel>
+      <div class="flex items-center">
+         <p-checkbox inputId="ingredient1" name="subtitled" value="true" formControlName="subtitled" />
+         <label for="ingredient1" class="ml-2"> Con subtítulos </label>
+       </div>
+     </div>
+
+     <!-- Points -->
+     <div class="flex gap-4">
+       <p-floatlabel variant="on">
+         <input pInputText id="on_label" formControlName="points"  autocomplete="off" class="bg-neutral-700 w-[5rem]" />
+         <label for="on_label">Puntos</label>
+       </p-floatlabel>
+     </div>
+
+     <!-- Reseñas de Steam -->
+       <p-floatlabel class="w-full md:w-56" variant="on">
+        <p-select formControlName="steamReview" inputId="on_label" [options]="steamReviews" optionLabel="name" class="w-full" />
+        <label for="on_label">Reseñas de Steam</label>
+      </p-floatlabel>
+     
+
+    <!-- Descripcion -->
+       <div class="card">
+         <p>Sinopsis</p>
+            <p-editor formControlName="description" [style]="{ height: '320px' }">
+                <ng-template #header>
+                    <span class="ql-formats">
+                        <button type="button" class="ql-bold" aria-label="Bold"></button>
+                        <button type="button" class="ql-italic" aria-label="Italic"></button>
+                        <button type="button" class="ql-underline" aria-label="Underline"></button>
+                    </span>
+                </ng-template>
+            </p-editor>
+        </div>
+       
+    
+    <p-button type="submit" icon="pi pi-plus" label="Agregar juego" severity="contrast" />
+  </form>
+</div>

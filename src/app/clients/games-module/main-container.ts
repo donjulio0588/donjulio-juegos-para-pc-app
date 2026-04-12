@@ -5,15 +5,15 @@ import { GameCard } from './components/game-preview-card/game-preview-card';
 import { ActivatedRoute } from '@angular/router';
 import { MainNavBar } from '@app/shared/components/main-nav-bar/main-nav-bar';
 import { SearchBar } from '@app/shared/components/search-bar/search-bar';
-import { GamesCarousel } from '@app/shared/components/carrousel/carrousel';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { FetchGames } from '@app/core/services/fetch-games.service';
 import { lastValueFrom } from 'rxjs';
 import { DataFromLocalStoage } from '@app/core/services/dataFromLocalStorage.service';
+import { UpperCarousel } from './components/game-preview-card/upper-carousel/upper-carousel';
 
 @Component({
   selector: 'app-main-container',
-  imports: [GameCard, MainNavBar, SearchBar, GamesCarousel, PaginatorModule],
+  imports: [GameCard, MainNavBar, SearchBar, UpperCarousel, PaginatorModule],
   templateUrl: './main-container.html',
   styleUrl: './main-container.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

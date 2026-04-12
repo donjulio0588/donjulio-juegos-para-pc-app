@@ -1,0 +1,40 @@
+<!-- fix resposive width -->
+<div class="card mt-7 w-[94%] xl:w-[87%] mx-auto">
+  <p-carousel
+    [value]="products()"
+    [numVisible]="3"
+    [numScroll]="1"
+    [circular]="true"
+    [responsiveOptions]="responsiveOptions"
+    autoplayInterval="3000"
+    class="bg-neutral-800/90 rounded-md"
+  >
+    <ng-template let-product #item>
+      <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4 bg-neutral-700">
+        <div class="mb-4">
+          <div class="relative mx-auto">
+            <img
+              src="http://localhost:4000/api/games/images/game-images/main/{{ product.poster }}"
+              [alt]="product.name"
+              class="rounded-border min-w-full max-w-[16rem] h-[9rem] object-cover"
+            />
+            <p-tag
+              [value]="product.inactive ? 'Inactive' : 'Active'"
+              [severity]="product.inactive ? 'danger' : 'success'"
+              class="absolute dark:!bg-surface-900 translate-y-[-100%]"
+              
+            />
+          </div>
+        </div>
+        <div class="mb-4 font-medium truncate max-w-[16rem]">{{ product.name }}</div>
+        <div class="flex justify-between items-center">
+          <div class="mt-0 font-semibold text-xl">{{ '$' + product.price }}</div>
+          <span>
+            <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+            <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

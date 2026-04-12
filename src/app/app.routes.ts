@@ -42,4 +42,19 @@ export const routes: Routes = [
         (m) => m.GameAddEdit
       ),
   },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./admin/dashboard/dashboard').then((m) => m.Dashboard),
+  },
+  {
+    path: 'admin/games',
+    loadComponent: () =>
+      import('./admin/games-module/games-module').then((m) => m.GamesModule),
+  },
+  {
+    path: 'admin/accountant',
+    loadComponent: () =>
+      import('./admin/accountant-module/accountant-module').then((m) => m.AccountantModule),
+  }
 ];

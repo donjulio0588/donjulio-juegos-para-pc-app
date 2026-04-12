@@ -37,10 +37,7 @@ export class SearchBar {
 
       //search games
       if (this.gameName) {
-        // console.log(this.gameName);
-        //console.log(this.mode?.code);
         this.searchResultService.searchGames();
-
       }
     });
 
